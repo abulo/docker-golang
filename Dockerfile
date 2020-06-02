@@ -78,7 +78,7 @@ ENV GOCACHE /home/www/golang/cache
 ENV GOPATH /home/www/golang
 ENV GO111MODULE "on"
 ENV GOPROXY "https://goproxy.cn,direct"
-RUN get -g -v -u golang.org/x/tools/cmd/goimports
+RUN go get -g -v -u golang.org/x/tools/cmd/goimports
 
 
 USER www
