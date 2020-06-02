@@ -59,7 +59,7 @@ RUN	groupadd -r www && \
     tar zvxf nginx-${NGINX_VERSION}.tar.gz && \
     cd nginx-${NGINX_VERSION} && \
     ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_gzip_static_module --with-http_realip_module --with-http_stub_status_module --with-http_ssl_module --with-threads --with-http_v2_module --with-http_geoip_module --with-http_image_filter_module --with-http_xslt_module && \
-    make && make && \
+    make && make install && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
     mkdir -pv /home/www/golang/env && \
@@ -78,12 +78,8 @@ ENV GOCACHE /home/www/golang/cache
 ENV GOPATH /home/www/golang
 ENV GO111MODULE "on"
 ENV GOPROXY "https://goproxy.cn,direct"
-RUN go get golang.org/x/tools/cmd/goimports && \
-    chown -R www:www /home/www && \
-    chmod -R 777 /home/www
+RUN go get golang.org/x/tools/cmd/goimports 
 
-
-USER www
 WORKDIR /home/www
 
 CMD ["/usr/local/nginx/sbin/nginx"]
