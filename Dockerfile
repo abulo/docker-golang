@@ -82,7 +82,7 @@ RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && 
     curl -L -o tengine-${TENGINE_VERSION}.tar.gz ${TENGINE_URL} && \
     tar zvxf tengine-${TENGINE_VERSION}.tar.gz && \
     cd tengine-${TENGINE_VERSION} && \
-    ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_stub_status_module --with-http_v2_module --with-threads --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-http_flv_module --with-http_mp4_module  --with-http_geoip_module --with-http_image_filter_module --with-http_xslt_module --with-openssl=../openssl-${OPENSSL_VERSION} --with-pcre=../pcre-${PCRE_VERSION} --with-pcre-jit --with-jemalloc --add-module=/home/www/soft/tengine-${TENGINE_VERSION}/modules/ngx_http_concat_module && \
+    ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_stub_status_module --with-http_v2_module --with-threads --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-http_flv_module --with-http_mp4_module  --with-http_geoip_module --with-http_image_filter_module --with-http_xslt_module --with-openssl=../openssl-${OPENSSL_VERSION} --with-pcre=../pcre-${PCRE_VERSION} --with-pcre-jit --with-jemalloc --add-module=/home/www/soft/tengine-${TENGINE_VERSION}/modules/ngx_http_concat_module --with-http_concat_module && \
     make && make install && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
