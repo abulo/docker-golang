@@ -23,8 +23,8 @@ ARG JEMALLOC_URL=https://github.com/jemalloc/jemalloc/releases/download/${JEMALL
 
 
 # 设置源
-RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
-    groupadd -r www && \
+# RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
+RUN groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
 	apt-get -y update && \
