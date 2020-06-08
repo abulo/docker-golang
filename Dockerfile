@@ -1,9 +1,6 @@
-# Version 0.2
-# 基础镜像
 FROM ubuntu:20.04
 # 维护者信息
 MAINTAINER abulo.hoo@gmail.com
-
 ARG LDAP_DOMAIN=localhost
 ARG LDAP_ORG=ldap
 ARG LDAP_HOSTNAME=localhost
@@ -12,16 +9,8 @@ ARG VIPS_VERSION=8.9.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 ARG GOLANG_VERSION=1.14.4
 ARG GOLANG_URL=https://studygolang.com/dl/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz
-ARG TENGINE_VERSION=2.3.2
-ARG TENGINE_URL=http://tengine.taobao.org/download/tengine-${TENGINE_VERSION}.tar.gz
-ARG PCRE_VERSION=8.44
-ARG PCRE_URL=https://ftp.pcre.org/pub/pcre/pcre-${PCRE_VERSION}.tar.gz
-ARG OPENSSL_VERSION=1.1.1g
-ARG OPENSSL_URL=https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
-ARG JEMALLOC_VERSION=5.2.1
-ARG JEMALLOC_URL=https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2
-
-
+ARG NGINX_VERSION=1.19.0
+ARG NGINX_URL=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
 # 设置源
 # RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
 RUN groupadd -r www && \
@@ -66,23 +55,10 @@ RUN groupadd -r www && \
     curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
     cd /home/www/soft && \
-    curl -L -o jemalloc-${JEMALLOC_VERSION}.tar.bz2 ${JEMALLOC_URL} && \
-    tar jxvf jemalloc-${JEMALLOC_VERSION}.tar.bz2 && \
-    cd jemalloc-${JEMALLOC_VERSION} && \
-    ./configure && \
-    make && make install && \
-    ln -s /usr/local/lib/libjemalloc.so.2 /usr/lib/libjemalloc.so.1 && \
-    echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf && \
-    ldconfig && \
-    cd /home/www/soft && \
-    curl -L -o pcre-${PCRE_VERSION}.tar.gz ${PCRE_URL} && \
-    tar zvxf pcre-${PCRE_VERSION}.tar.gz && \
-    curl -L -o openssl-${OPENSSL_VERSION}.tar.gz ${OPENSSL_URL} && \
-    tar zvxf openssl-${OPENSSL_VERSION}.tar.gz && \
-    curl -L -o tengine-${TENGINE_VERSION}.tar.gz ${TENGINE_URL} && \
-    tar zvxf tengine-${TENGINE_VERSION}.tar.gz && \
-    cd tengine-${TENGINE_VERSION} && \
-    ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_stub_status_module --with-http_v2_module --with-threads --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-http_flv_module --with-http_mp4_module  --with-http_geoip_module --with-http_image_filter_module --with-http_xslt_module --with-openssl=../openssl-${OPENSSL_VERSION} --with-pcre=../pcre-${PCRE_VERSION} --with-pcre-jit --with-jemalloc --add-module=/home/www/soft/tengine-${TENGINE_VERSION}/modules/ngx_http_concat_module --with-http_concat_module && \
+    curl -L -o nginx-${NGINX_VERSION}.tar.gz ${NGINX_URL} && \
+    tar zvxf nginx-${NGINX_VERSION}.tar.gz && \
+    cd nginx-${NGINX_VERSION} && \
+    ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_gzip_static_module --with-http_realip_module --with-http_stub_status_module --with-http_ssl_module --with-threads --with-http_v2_module --with-http_geoip_module --with-http_image_filter_module --with-http_xslt_module   && \
     make && make install && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
@@ -92,7 +68,6 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
     rm -rf  /home/www/soft
-
 ENV PATH /usr/local/go/bin:$PATH
 ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 ENV GOENV /home/www/golang/env
@@ -103,7 +78,5 @@ ENV GOPATH /home/www/golang
 ENV GO111MODULE "on"
 ENV GOPROXY "https://goproxy.cn,direct"
 RUN go get golang.org/x/tools/cmd/goimports 
-
 WORKDIR /home/www
-
 CMD ["/usr/local/nginx/sbin/nginx"]
