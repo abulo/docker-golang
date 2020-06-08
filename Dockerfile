@@ -12,8 +12,8 @@ ARG GOLANG_URL=https://studygolang.com/dl/golang/go${GOLANG_VERSION}.linux-amd64
 ARG NGINX_VERSION=1.19.0
 ARG NGINX_URL=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
 # 设置源
-RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
-    groupadd -r www && \
+# RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
+RUN groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
 	apt-get -y update && \
