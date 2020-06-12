@@ -78,4 +78,5 @@ ENV GOPATH /home/www/golang
 ENV GO111MODULE "on"
 ENV GOPROXY "https://goproxy.cn,direct"
 RUN go get golang.org/x/tools/cmd/goimports 
+ENV PATH /home/www/golang/bin:$PATH
 WORKDIR /home/www
