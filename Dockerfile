@@ -47,7 +47,7 @@ RUN groupadd -r www && \
     mkdir soft && \
     cd soft && \
     curl -L -o vips-${VIPS_VERSION}.tar.gz ${VIPS_URL} && \
-    tar zvxf vips-${VIPS_VERSION}.tar.gz && cd vips-${VIPS_VERSION} && \
+    tar -zxf vips-${VIPS_VERSION}.tar.gz && cd vips-${VIPS_VERSION} && \
     CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" ./configure --disable-debug --disable-docs --disable-static --disable-introspection --disable-dependency-tracking --enable-cxx=yes --without-python --without-orc --without-fftw && \
     make && \
     make install && \
@@ -57,7 +57,7 @@ RUN groupadd -r www && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
     cd /home/www/soft && \
     curl -L -o tengine-${TENGINE_VERSION}.tar.gz ${TENGINE_URL} && \
-    tar zvxf tengine-${TENGINE_VERSION}.tar.gz && \
+    tar -zxf tengine-${TENGINE_VERSION}.tar.gz && \
     cd tengine-${TENGINE_VERSION} && \
     ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_gzip_static_module --with-http_realip_module --with-http_stub_status_module --with-http_ssl_module --with-threads --with-http_v2_module --with-http_geoip_module --with-http_image_filter_module --with-http_xslt_module --add-module=./modules/ngx_http_concat_module --add-module=./modules/ngx_http_trim_filter_module --add-module=./modules/ngx_http_user_agent_module && \
     make && make install && \
