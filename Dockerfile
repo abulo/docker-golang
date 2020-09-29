@@ -1,31 +1,23 @@
 FROM ubuntu:20.04
 # 维护者信息
-LABEL maintainer="Abulo Hoo"
-LABEL maintainer-email="abulo.hoo@gmail.com"
-ARG LDAP_DOMAIN=localhost
-ARG LDAP_ORG=ldap
-ARG LDAP_HOSTNAME=localhost
-ARG LDAP_PASSWORD=ldap
-ARG VIPS_VERSION=8.10.1
-ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
-ARG GOLANG_VERSION=1.15.2
-ARG GOLANG_URL=https://studygolang.com/dl/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz
-ARG TENGINE_VERSION=2.3.2
-ARG TENGINE_URL=http://tengine.taobao.org/download/tengine-${TENGINE_VERSION}.tar.gz
+LABEL maintainer="Abulo Hoo" maintainer-email="abulo.hoo@gmail.com"
+
+ENV PATH=/usr/local/go/bin:$PATH PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH GOENV=/home/www/golang/env GOTMPDIR=/home/www/golang/tmp GOBIN=/home/www/golang/bin GOCACHE=/home/www/golang/cache GOPATH=/home/www/golang GO111MODULE="on" GOPROXY="https://goproxy.cn,direct" PATH=/home/www/golang/bin:$PATH
+
 # 设置源
-RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
+RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
     groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
 	apt-get -y update && \
-	echo "slapd slapd/root_password password ${LDAP_PASSWORD}" | debconf-set-selections && \
-	echo "slapd slapd/root_password_again password ${LDAP_PASSWORD}" | debconf-set-selections && \
-	echo "slapd slapd/internal/adminpw password ${LDAP_PASSWORD}" | debconf-set-selections &&  \
-	echo "slapd slapd/internal/generated_adminpw password ${LDAP_PASSWORD}" | debconf-set-selections && \
-	echo "slapd slapd/password2 password ${LDAP_PASSWORD}" | debconf-set-selections && \
-	echo "slapd slapd/password1 password ${LDAP_PASSWORD}" | debconf-set-selections && \
-	echo "slapd slapd/domain string ${LDAP_DOMAIN}" | debconf-set-selections && \
-	echo "slapd shared/organization string ${LDAP_ORG}" | debconf-set-selections && \
+	echo "slapd slapd/root_password password ldap" | debconf-set-selections && \
+	echo "slapd slapd/root_password_again password ldap" | debconf-set-selections && \
+	echo "slapd slapd/internal/adminpw password ldap" | debconf-set-selections &&  \
+	echo "slapd slapd/internal/generated_adminpw password ldap" | debconf-set-selections && \
+	echo "slapd slapd/password2 password ldap" | debconf-set-selections && \
+	echo "slapd slapd/password1 password ldap" | debconf-set-selections && \
+	echo "slapd slapd/domain string localhost" | debconf-set-selections && \
+	echo "slapd shared/organization string ldap" | debconf-set-selections && \
 	echo "slapd slapd/backend string HDB" | debconf-set-selections && \
 	echo "slapd slapd/purge_database boolean true" | debconf-set-selections && \
 	echo "slapd slapd/move_old_database boolean true" | debconf-set-selections && \
@@ -46,19 +38,19 @@ RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && 
     cd /home/www && \
     mkdir soft && \
     cd soft && \
-    curl -L -o vips-${VIPS_VERSION}.tar.gz ${VIPS_URL} && \
-    tar -zxf vips-${VIPS_VERSION}.tar.gz && cd vips-${VIPS_VERSION} && \
+    curl -L -o vips-8.10.1.tar.gz https://github.com/libvips/libvips/releases/download/v8.10.1/vips-8.10.1.tar.gz  && \ 
+    tar -zxf vips-8.10.1.tar.gz && cd vips-8.10.1 && \
     CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" ./configure --disable-debug --disable-docs --disable-static --disable-introspection --disable-dependency-tracking --enable-cxx=yes --without-python --without-orc --without-fftw && \
     make && \
     make install && \
     ldconfig && \ 
     cd /home/www/soft && \
-    curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
-    tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
+    curl -L -o go1.15.2.linux-amd64.tar.gz https://studygolang.com/dl/golang/go1.15.2.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.15.2.linux-amd64.tar.gz && \
     cd /home/www/soft && \
-    curl -L -o tengine-${TENGINE_VERSION}.tar.gz ${TENGINE_URL} && \
-    tar -zxf tengine-${TENGINE_VERSION}.tar.gz && \
-    cd tengine-${TENGINE_VERSION} && \
+    curl -L -o tengine-2.3.2.tar.gz http://tengine.taobao.org/download/tengine-2.3.2.tar.gz && \
+    tar -zxf tengine-2.3.2.tar.gz && \
+    cd tengine-2.3.2 && \
     ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_gzip_static_module --with-http_realip_module --with-http_stub_status_module --with-http_ssl_module --with-threads --with-http_v2_module --with-http_geoip_module --with-http_image_filter_module --with-http_xslt_module --add-module=./modules/ngx_http_concat_module --add-module=./modules/ngx_http_trim_filter_module --add-module=./modules/ngx_http_user_agent_module && \
     make && make install && \
     mkdir -pv /home/www/golang/bin && \
@@ -68,16 +60,6 @@ RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && 
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    rm -rf  /home/www/soft
-ENV PATH /usr/local/go/bin:$PATH
-ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
-ENV GOENV /home/www/golang/env
-ENV GOTMPDIR /home/www/golang/tmp
-ENV GOBIN /home/www/golang/bin
-ENV GOCACHE /home/www/golang/cache
-ENV GOPATH /home/www/golang
-ENV GO111MODULE "on"
-ENV GOPROXY "https://goproxy.cn,direct"
-RUN go get golang.org/x/tools/cmd/goimports 
-ENV PATH /home/www/golang/bin:$PATH
+    rm -rf  /home/www/soft  && \
+    go get golang.org/x/tools/cmd/goimports 
 WORKDIR /home/www
