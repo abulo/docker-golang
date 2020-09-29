@@ -5,8 +5,8 @@ LABEL maintainer="Abulo Hoo" maintainer-email="abulo.hoo@gmail.com"
 ENV PATH=/usr/local/go/bin:$PATH PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH GOENV=/home/www/golang/env GOTMPDIR=/home/www/golang/tmp GOBIN=/home/www/golang/bin GOCACHE=/home/www/golang/cache GOPATH=/home/www/golang GO111MODULE="on" GOPROXY="https://goproxy.cn,direct" PATH=/home/www/golang/bin:$PATH
 
 # 设置源
-RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
-    groupadd -r www && \
+# RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
+RUN groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
 	apt-get -y update && \
