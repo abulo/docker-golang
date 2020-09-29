@@ -13,8 +13,8 @@ ARG GOLANG_URL=https://studygolang.com/dl/golang/go${GOLANG_VERSION}.linux-amd64
 ARG TENGINE_VERSION=2.3.2
 ARG TENGINE_URL=http://tengine.taobao.org/download/tengine-${TENGINE_VERSION}.tar.gz
 # 设置源
-# RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
-RUN groupadd -r www && \
+RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
+    groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
 	apt-get -y update && \
