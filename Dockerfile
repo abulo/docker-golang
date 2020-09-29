@@ -1,9 +1,6 @@
 FROM ubuntu:20.04
 # 维护者信息
 LABEL maintainer="Abulo Hoo" maintainer-email="abulo.hoo@gmail.com"
-
-ENV PATH=/usr/local/go/bin:$PATH PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH GOENV=/home/www/golang/env GOTMPDIR=/home/www/golang/tmp GOBIN=/home/www/golang/bin GOCACHE=/home/www/golang/cache GOPATH=/home/www/golang GO111MODULE="on" GOPROXY="https://goproxy.cn,direct" PATH=/home/www/golang/bin:$PATH
-
 # 设置源
 # RUN sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
 RUN groupadd -r www && \
@@ -60,6 +57,8 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    rm -rf  /home/www/soft  && \
-    go get golang.org/x/tools/cmd/goimports 
+    rm -rf  /home/www/soft
+    
+ENV PATH=/usr/local/go/bin:$PATH PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH GOENV=/home/www/golang/env GOTMPDIR=/home/www/golang/tmp GOBIN=/home/www/golang/bin GOCACHE=/home/www/golang/cache GOPATH=/home/www/golang GO111MODULE="on" GOPROXY="https://goproxy.cn,direct" PATH=/home/www/golang/bin:$PATH    
+RUN go get golang.org/x/tools/cmd/goimports 
 WORKDIR /home/www
