@@ -85,10 +85,10 @@ RUN go get golang.org/x/tools/cmd/goimports  && \
     go get github.com/client9/misspell && \
     go get github.com/jgautheron/goconst/cmd/goconst && \
     go get honnef.co/go/tools/cmd/... && \
-    rm -rf /home/www/golang/cache && \
-    rm -rf /home/www/golang/vendor && \
-    rm -rf /home/www/golang/tmp && \
-    rm -rf /home/www/golang/cache && \
-    rm -rf /home/www/golang/pkg
+    rm -rf /home/www/golang/cache/* && \
+    rm -rf /home/www/golang/vendor/* && \
+    rm -rf /home/www/golang/tmp/* && \
+    rm -rf /home/www/golang/cache/* && \
+    rm -rf /home/www/golang/pkg/*
 ENV PATH /home/www/golang/bin:$PATH
 WORKDIR /home/www
