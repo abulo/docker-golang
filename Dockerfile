@@ -78,6 +78,12 @@ ENV GOCACHE /home/www/golang/cache
 ENV GOPATH /home/www/golang
 ENV GO111MODULE "on"
 ENV GOPROXY "https://goproxy.cn,direct"
-RUN go get golang.org/x/tools/cmd/goimports 
+RUN go get golang.org/x/tools/cmd/goimports  && \ 
+    go get github.com/fzipp/gocyclo && \ 
+    go get mvdan.cc/interfacer && \
+    go get github.com/tsenart/deadcode && \
+    go get github.com/client9/misspell && \
+    go get github.com/jgautheron/goconst/cmd/goconst && \
+    go get honnef.co/go/tools/cmd/...
 ENV PATH /home/www/golang/bin:$PATH
 WORKDIR /home/www
