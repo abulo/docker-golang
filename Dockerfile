@@ -8,7 +8,7 @@ ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
 ARG VIPS_VERSION=8.10.2
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
-ARG GOLANG_VERSION=1.15.3
+ARG GOLANG_VERSION=1.15.4
 ARG GOLANG_URL=https://studygolang.com/dl/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz
 ARG TENGINE_VERSION=2.3.2
 ARG TENGINE_URL=http://tengine.taobao.org/download/tengine-${TENGINE_VERSION}.tar.gz
@@ -79,10 +79,11 @@ ENV GOPATH /home/www/golang
 ENV GO111MODULE "on"
 ENV GOPROXY "https://goproxy.cn,direct"
 RUN go get golang.org/x/tools/cmd/goimports  && \ 
-    go get github.com/fzipp/gocyclo && \ 
+    go get github.com/fzipp/gocyclo/cmd/gocyclo && \ 
+    go get golang.org/x/tools/cmd/gotype && \ 
     go get mvdan.cc/interfacer && \
     go get github.com/tsenart/deadcode && \
-    go get github.com/client9/misspell && \
+    go get github.com/client9/misspell/cmd/misspell && \
     go get github.com/jgautheron/goconst/cmd/goconst && \
     go get honnef.co/go/tools/cmd/... && \
     rm -rf /home/www/golang/cache/* && \
