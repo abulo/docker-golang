@@ -56,6 +56,9 @@ RUN groupadd -r www && \
     make install && \
     ldconfig && \ 
     cd /home/www/soft && \
+    curl -L -o  google-chrome-stable_current_amd64.deb   https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    dpkg -i google-chrome-stable_current_amd64.deb && \
+    cd /home/www/soft && \
     curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
     cd /home/www/soft && \
