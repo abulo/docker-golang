@@ -12,9 +12,6 @@ ARG GOLANG_VERSION=1.15.8
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 ARG TENGINE_VERSION=2.3.2
 ARG TENGINE_URL=http://tengine.taobao.org/download/tengine-${TENGINE_VERSION}.tar.gz
-    # curl -L -o  google-chrome-stable_current_amd64.deb   https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    # dpkg -i google-chrome-stable_current_amd64.deb && \
-    # cd /home/www/soft && \
 # 设置源
 # RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
 RUN groupadd -r www && \
