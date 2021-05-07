@@ -6,11 +6,11 @@ ARG LDAP_DOMAIN=localhost
 ARG LDAP_ORG=ldap
 ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
-ARG VIPS_VERSION=8.10.5
+ARG VIPS_VERSION=8.10.6
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
-ARG GOLANG_VERSION=1.16.3
+ARG GOLANG_VERSION=1.16.4
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
-ARG TENGINE_VERSION=2.3.2
+ARG TENGINE_VERSION=2.3.3
 ARG TENGINE_URL=http://tengine.taobao.org/download/tengine-${TENGINE_VERSION}.tar.gz
 # 设置源
 # RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
