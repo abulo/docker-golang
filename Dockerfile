@@ -32,15 +32,15 @@ ARG LUA_RESTY_LRUCACHE_VERSION=0.11
 ARG LUA_RESTY_LRUCACHE_URL=https://github.com/openresty/lua-resty-lrucache/archive/refs/tags/v${LUA_RESTY_LRUCACHE_VERSION}.tar.gz
 
 
-ENV PATH /usr/local/go/bin:$PATH
-ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
-ENV GOENV /home/www/golang/env
-ENV GOTMPDIR /home/www/golang/tmp
-ENV GOBIN /home/www/golang/bin
-ENV GOCACHE /home/www/golang/cache
-ENV GOPATH /home/www/golang
-ENV GO111MODULE "on"
-ENV GOPROXY "https://goproxy.cn,direct"
+# ENV PATH /usr/local/go/bin:$PATH
+# ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+# ENV GOENV /home/www/golang/env
+# ENV GOTMPDIR /home/www/golang/tmp
+# ENV GOBIN /home/www/golang/bin
+# ENV GOCACHE /home/www/golang/cache
+# ENV GOPATH /home/www/golang
+# ENV GO111MODULE "on"
+# ENV GOPROXY "https://goproxy.cn,direct"
 ENV LUAJIT_LIB /usr/local/luajit/lib
 ENV LUAJIT_INC /usr/local/luajit/include/luajit-2.1
 
@@ -124,7 +124,20 @@ RUN groupadd -r www && \
     #安装lua-resty-lrucache插件
     cd /home/www/soft/lua-resty-lrucache-${LUA_RESTY_LRUCACHE_VERSION} && \
     make install PREFIX=/usr/local/nginx && \
-    cd /home/www/soft && \
+    cd /home/www && \
+    rm -rf  /home/www/soft
+
+ENV PATH /usr/local/go/bin:$PATH
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+ENV GOENV /home/www/golang/env
+ENV GOTMPDIR /home/www/golang/tmp
+ENV GOBIN /home/www/golang/bin
+ENV GOCACHE /home/www/golang/cache
+ENV GOPATH /home/www/golang
+ENV GO111MODULE "on"
+ENV GOPROXY "https://goproxy.cn,direct"
+
+RUN cd /home/www && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
     mkdir -pv /home/www/golang/env && \
@@ -132,15 +145,14 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    rm -rf  /home/www/soft && \
-    # go get golang.org/x/tools/cmd/goimports  && \ 
-    # go get github.com/fzipp/gocyclo/cmd/gocyclo && \ 
-    # go get golang.org/x/tools/cmd/gotype && \ 
-    # go get mvdan.cc/interfacer && \
-    # go get github.com/tsenart/deadcode && \
-    # go get github.com/client9/misspell/cmd/misspell && \
-    # go get github.com/jgautheron/goconst/cmd/goconst && \
-    # go get honnef.co/go/tools/cmd/... && \
+    go get golang.org/x/tools/cmd/goimports  && \ 
+    go get github.com/fzipp/gocyclo/cmd/gocyclo && \ 
+    go get golang.org/x/tools/cmd/gotype && \ 
+    go get mvdan.cc/interfacer && \
+    go get github.com/tsenart/deadcode && \
+    go get github.com/client9/misspell/cmd/misspell && \
+    go get github.com/jgautheron/goconst/cmd/goconst && \
+    go get honnef.co/go/tools/cmd/... && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/vendor/* && \
     rm -rf /home/www/golang/tmp/* && \
