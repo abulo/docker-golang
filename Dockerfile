@@ -16,8 +16,11 @@ ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 ARG TENGINE_VERSION=2.3.3
 ARG TENGINE_URL=http://tengine.taobao.org/download/tengine-${TENGINE_VERSION}.tar.gz
 
-ARG LUAJIT_VERSION=2.1-20211210
-ARG LUAJIT_URL=https://github.com/openresty/luajit2/archive/refs/tags/v${LUAJIT_VERSION}.tar.gz
+ARG LUA_VERSION=5.4.3
+ARG LUA_URL=http://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz
+
+ARG LUAJIT_VERSION=2.0.5
+ARG LUAJIT_URL=https://luajit.org/download/LuaJIT-${LUAJIT_VERSION}.tar.gz
 
 ARG NGX_DEVEL_KIT_VERSION=0.3.1
 ARG NGX_DEVEL_KIT_URL=https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v${NGX_DEVEL_KIT_VERSION}.tar.gz
@@ -31,6 +34,8 @@ ARG LUA_RESTY_CORE_URL=https://github.com/openresty/lua-resty-core/archive/refs/
 ARG LUA_RESTY_LRUCACHE_VERSION=0.11
 ARG LUA_RESTY_LRUCACHE_URL=https://github.com/openresty/lua-resty-lrucache/archive/refs/tags/v${LUA_RESTY_LRUCACHE_VERSION}.tar.gz
 
+ARG LUA_CJSON_VERSION=0.11
+ARG LUA_CJSON_URL=https://github.com/openresty/lua-cjson/archive/refs/tags/${LUA_CJSON_VERSION}.tar.gz
 
 # ENV PATH /usr/local/go/bin:$PATH
 # ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
@@ -42,7 +47,7 @@ ARG LUA_RESTY_LRUCACHE_URL=https://github.com/openresty/lua-resty-lrucache/archi
 # ENV GO111MODULE "on"
 # ENV GOPROXY "https://goproxy.cn,direct"
 ENV LUAJIT_LIB /usr/local/luajit/lib
-ENV LUAJIT_INC /usr/local/luajit/include/luajit-2.1
+ENV LUAJIT_INC /usr/local/luajit/include/luajit-2.0
 
 # 设置源
 # RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
@@ -93,12 +98,15 @@ RUN groupadd -r www && \
     # 下载 golang
     curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
+    # 下载 lua
+    curl -L -o lua-${LUA_VERSION}.tar.gz ${LUA_URL} && \
+    tar -zxf lua-${LUA_VERSION}.tar.gz && \
     # 下载 tengine
     curl -L -o tengine-${TENGINE_VERSION}.tar.gz ${TENGINE_URL} && \
     tar -zxf tengine-${TENGINE_VERSION}.tar.gz && \
-    # 下载 luajit2
-    curl -L -o luajit2-${LUAJIT_VERSION}.tar.gz ${LUAJIT_URL} && \
-    tar -zxf luajit2-${LUAJIT_VERSION}.tar.gz && \
+    # 下载 LuaJIT
+    curl -L -o LuaJIT-${LUAJIT_VERSION}.tar.gz ${LUAJIT_URL} && \
+    tar -zxf LuaJIT-${LUAJIT_VERSION}.tar.gz && \
     # 下载 ngx_devel_kit
     curl -L -o ngx_devel_kit-${NGX_DEVEL_KIT_VERSION}.tar.gz ${NGX_DEVEL_KIT_URL} && \
     tar -zxf ngx_devel_kit-${NGX_DEVEL_KIT_VERSION}.tar.gz && \
@@ -111,8 +119,15 @@ RUN groupadd -r www && \
     # 下载 lua-resty-lrucache
     curl -L -o lua-resty-lrucache-${LUA_RESTY_LRUCACHE_VERSION}.tar.gz ${LUA_RESTY_LRUCACHE_URL} && \
     tar -zxf lua-resty-lrucache-${LUA_RESTY_LRUCACHE_VERSION}.tar.gz && \
+    # 下载 lua-cjson
+    curl -L -o lua-cjson-${LUA_CJSON_VERSION}.tar.gz ${LUA_CJSON_URL} && \
+    tar -zxf lua-cjson-${LUA_CJSON_VERSION}.tar.gz && \
+    #安装 lua
+    cd /home/www/soft/lua-${LUA_VERSION} && \
+    make linux && \
+    make install && \
     #安装 luajit
-    cd /home/www/soft/luajit2-${LUAJIT_VERSION} && \
+    cd /home/www/soft/LuaJIT-${LUAJIT_VERSION} && \
     make install PREFIX=/usr/local/luajit && \
     #安装 tengine
     cd /home/www/soft/tengine-${TENGINE_VERSION} && \
@@ -124,6 +139,12 @@ RUN groupadd -r www && \
     #安装lua-resty-lrucache插件
     cd /home/www/soft/lua-resty-lrucache-${LUA_RESTY_LRUCACHE_VERSION} && \
     make install PREFIX=/usr/local/nginx && \
+    #安装lua-cjson插件
+    cd /home/www/soft/lua-cjson-${LUA_CJSON_VERSION} && \
+    make && \
+    make install && \
+
+
     cd /home/www && \
     rm -rf  /home/www/soft
 
