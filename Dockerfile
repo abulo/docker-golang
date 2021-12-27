@@ -6,12 +6,44 @@ ARG LDAP_DOMAIN=localhost
 ARG LDAP_ORG=ldap
 ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
+
 ARG VIPS_VERSION=8.12.1
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
+
 ARG GOLANG_VERSION=1.17.5
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
+
 ARG TENGINE_VERSION=2.3.3
 ARG TENGINE_URL=http://tengine.taobao.org/download/tengine-${TENGINE_VERSION}.tar.gz
+
+ARG LUAJIT_VERSION=2.1-20211210
+ARG LUAJIT_URL=https://github.com/openresty/luajit2/archive/refs/tags/v${LUAJIT_VERSION}.tar.gz
+
+ARG NGX_DEVEL_KIT_VERSION=0.3.1
+ARG NGX_DEVEL_KIT_URL=https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v${NGX_DEVEL_KIT_VERSION}.tar.gz
+
+ARG LUA_NGINX_MODULE_VERSION=0.10.20
+ARG LUA_NGINX_MODULE_URL=https://github.com/openresty/lua-nginx-module/archive/refs/tags/v${LUA_NGINX_MODULE_VERSION}.tar.gz
+
+ARG LUA_RESTY_CORE_VERSION=0.1.22
+ARG LUA_RESTY_CORE_URL=https://github.com/openresty/lua-resty-core/archive/refs/tags/v${LUA_RESTY_CORE_VERSION}.tar.gz
+
+ARG LUA_RESTY_LRUCACHE_VERSION=0.11
+ARG LUA_RESTY_LRUCACHE_URL=https://github.com/openresty/lua-resty-lrucache/archive/refs/tags/v${LUA_RESTY_LRUCACHE_VERSION}.tar.gz
+
+
+ENV PATH /usr/local/go/bin:$PATH
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+ENV GOENV /home/www/golang/env
+ENV GOTMPDIR /home/www/golang/tmp
+ENV GOBIN /home/www/golang/bin
+ENV GOCACHE /home/www/golang/cache
+ENV GOPATH /home/www/golang
+ENV GO111MODULE "on"
+ENV GOPROXY "https://goproxy.cn,direct"
+ENV LUAJIT_LIB /usr/local/luajit/lib
+ENV LUAJIT_INC /usr/local/luajit/include/luajit-2.1
+
 # 设置源
 # RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
 RUN groupadd -r www && \
@@ -50,6 +82,7 @@ RUN groupadd -r www && \
     cd /home/www && \
     mkdir soft && \
     cd soft && \
+    #下载 vips
     curl -L -o vips-${VIPS_VERSION}.tar.gz ${VIPS_URL} && \
     tar -zxf vips-${VIPS_VERSION}.tar.gz && cd vips-${VIPS_VERSION} && \
     CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" ./configure --disable-debug --disable-docs --disable-static --disable-introspection --disable-dependency-tracking --enable-cxx=yes --without-python --without-orc --without-fftw && \
@@ -57,14 +90,41 @@ RUN groupadd -r www && \
     make install && \
     ldconfig && \ 
     cd /home/www/soft && \
+    # 下载 golang
     curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
-    cd /home/www/soft && \
+    # 下载 tengine
     curl -L -o tengine-${TENGINE_VERSION}.tar.gz ${TENGINE_URL} && \
     tar -zxf tengine-${TENGINE_VERSION}.tar.gz && \
-    cd tengine-${TENGINE_VERSION} && \
-    ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module --with-http_image_filter_module --with-http_geoip_module --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --add-module=./modules/ngx_http_concat_module --add-module=./modules/ngx_http_trim_filter_module --add-module=./modules/ngx_http_user_agent_module --add-module=./modules/ngx_http_upstream_check_module --add-module=./modules/ngx_http_upstream_session_sticky_module && \
+    # 下载 luajit2
+    curl -L -o luajit2-${LUAJIT_VERSION}.tar.gz ${LUAJIT_URL} && \
+    tar -zxf luajit2-${LUAJIT_VERSION}.tar.gz && \
+    # 下载 ngx_devel_kit
+    curl -L -o ngx_devel_kit-${NGX_DEVEL_KIT_VERSION}.tar.gz ${NGX_DEVEL_KIT_URL} && \
+    tar -zxf ngx_devel_kit-${NGX_DEVEL_KIT_VERSION}.tar.gz && \
+    # 下载 lua-nginx-module
+    curl -L -o lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz ${LUA_NGINX_MODULE_URL} && \
+    tar -zxf lua-nginx-module-${LUA_NGINX_MODULE_VERSION}.tar.gz && \
+    #下载 lua-resty-core
+    curl -L -o lua-resty-core-${LUA_RESTY_CORE_VERSION}.tar.gz ${LUA_RESTY_CORE_URL} && \
+    tar -zxf lua-resty-core-${LUA_RESTY_CORE_VERSION}.tar.gz && \
+    # 下载 lua-resty-lrucache
+    curl -L -o lua-resty-lrucache-${LUA_RESTY_LRUCACHE_VERSION}.tar.gz ${LUA_RESTY_LRUCACHE_URL} && \
+    tar -zxf lua-resty-lrucache-${LUA_RESTY_LRUCACHE_VERSION}.tar.gz && \
+    #安装 luajit
+    cd /home/www/soft/luajit2-${LUAJIT_VERSION} && \
+    make install PREFIX=/usr/local/luajit && \
+    #安装 tengine
+    cd /home/www/soft/tengine-${TENGINE_VERSION} && \
+    ./configure --prefix=/usr/local/nginx --user=www --group=www --with-http_ssl_module --with-http_realip_module --with-http_addition_module --with-http_sub_module --with-http_dav_module --with-http_flv_module --with-http_mp4_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_random_index_module --with-http_secure_link_module --with-http_stub_status_module --with-http_auth_request_module --with-http_xslt_module --with-http_image_filter_module --with-http_geoip_module --with-threads --with-stream --with-stream_ssl_module --with-stream_ssl_preread_module --with-stream_realip_module --with-stream_geoip_module --with-http_slice_module --with-mail --with-mail_ssl_module --with-compat --with-file-aio --with-http_v2_module --add-module=./modules/ngx_http_concat_module --add-module=./modules/ngx_http_trim_filter_module --add-module=./modules/ngx_http_user_agent_module --add-module=./modules/ngx_http_upstream_check_module --add-module=./modules/ngx_http_upstream_session_sticky_module  --with-ld-opt="-Wl,-rpath,/usr/local/luajit/lib" --add-module=/home/www/soft/ngx_devel_kit-${NGX_DEVEL_KIT_VERSION} --add-module=/home/www/soft/lua-nginx-module-${LUA_NGINX_MODULE_VERSION} && \
     make && make install && \
+    #安装lua-resty-core插件
+    cd /home/www/soft/lua-resty-core-${LUA_RESTY_CORE_VERSION} && \
+    make install PREFIX=/usr/local/nginx && \
+    #安装lua-resty-lrucache插件
+    cd /home/www/soft/lua-resty-lrucache-${LUA_RESTY_LRUCACHE_VERSION} && \
+    make install PREFIX=/usr/local/nginx && \
+    cd cd /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
     mkdir -pv /home/www/golang/env && \
@@ -72,17 +132,8 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    rm -rf  /home/www/soft
-ENV PATH /usr/local/go/bin:$PATH
-ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
-ENV GOENV /home/www/golang/env
-ENV GOTMPDIR /home/www/golang/tmp
-ENV GOBIN /home/www/golang/bin
-ENV GOCACHE /home/www/golang/cache
-ENV GOPATH /home/www/golang
-ENV GO111MODULE "on"
-ENV GOPROXY "https://goproxy.cn,direct"
-RUN go get golang.org/x/tools/cmd/goimports  && \ 
+    rm -rf  /home/www/soft && \
+    go get golang.org/x/tools/cmd/goimports  && \ 
     go get github.com/fzipp/gocyclo/cmd/gocyclo && \ 
     go get golang.org/x/tools/cmd/gotype && \ 
     go get mvdan.cc/interfacer && \
