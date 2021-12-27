@@ -124,7 +124,7 @@ RUN groupadd -r www && \
     #安装lua-resty-lrucache插件
     cd /home/www/soft/lua-resty-lrucache-${LUA_RESTY_LRUCACHE_VERSION} && \
     make install PREFIX=/usr/local/nginx && \
-    cd cd /home/www/soft && \
+    cd /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
     mkdir -pv /home/www/golang/env && \
