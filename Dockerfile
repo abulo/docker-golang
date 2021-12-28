@@ -29,7 +29,7 @@ RUN groupadd -r www && \
     rm /etc/localtime && \
     ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get install --no-install-recommends -y -q libvips libvips-dev libvips-tools curl wget net-tools nload htop tree software-properties-common git apt-utils build-essential ca-certificates gettext-base libgd-dev libgeoip-dev libncurses5-dev libperl-dev libreadline-dev libxslt1-dev make perl unzip zlib1g-dev supervisor && \
+    apt-get install --no-install-recommends -y -q libvips libvips-dev libvips-tools curl wget net-tools nload htop tree software-properties-common git apt-utils build-essential ca-certificates gettext-base libgd-dev libgeoip-dev libncurses5-dev libperl-dev libreadline-dev libxslt1-dev make perl unzip zlib1g-dev cron supervisor && \
     add-apt-repository ppa:longsleep/golang-backports && \
     apt-get -y update && \
     apt-get -y install golang-go && \
@@ -113,7 +113,7 @@ RUN groupadd -r www && \
     apt-get clean && \
     apt-get remove -f && \
     apt-get autoremove -y && \
-    apt-get remove -y  apt-utils software-properties-common && \
+    apt-get remove -y  apt-utils software-properties-common  && \
     apt-get clean all && \
     rm -rf /tmp/* && \
     rm -rf /var/log/* && \
