@@ -34,23 +34,23 @@ ARG LUA_RESTY_CORE_URL=https://github.com/openresty/lua-resty-core/archive/refs/
 ARG LUA_RESTY_LRUCACHE_VERSION=0.11
 ARG LUA_RESTY_LRUCACHE_URL=https://github.com/openresty/lua-resty-lrucache/archive/refs/tags/v${LUA_RESTY_LRUCACHE_VERSION}.tar.gz
 
-ARG LUA_CJSON_VERSION=0.11
+ARG LUA_CJSON_VERSION=2.1.0.8
 ARG LUA_CJSON_URL=https://github.com/openresty/lua-cjson/archive/refs/tags/${LUA_CJSON_VERSION}.tar.gz
 
-# ENV PATH /usr/local/go/bin:$PATH
-# ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
-# ENV GOENV /home/www/golang/env
-# ENV GOTMPDIR /home/www/golang/tmp
-# ENV GOBIN /home/www/golang/bin
-# ENV GOCACHE /home/www/golang/cache
-# ENV GOPATH /home/www/golang
-# ENV GO111MODULE "on"
-# ENV GOPROXY "https://goproxy.cn,direct"
-ENV LUAJIT_LIB /usr/local/luajit/lib
-ENV LUAJIT_INC /usr/local/luajit/include/luajit-2.0
+ARG PATH=/usr/local/go/bin:$PATH
+ARG PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+ARG GOENV=/home/www/golang/env
+ARG GOTMPDIR=/home/www/golang/tmp
+ARG GOBIN=/home/www/golang/bin
+ARG GOCACHE=/home/www/golang/cache
+ARG GOPATH=/home/www/golang
+ARG GO111MODULE="on"
+ARG GOPROXY="https://goproxy.cn,direct"
+ARG LUAJIT_LIB=/usr/local/luajit/lib
+ARG LUAJIT_INC=/usr/local/luajit/include/luajit-2.0
 
 # 设置源
-# RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
+# RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
 RUN groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
@@ -94,10 +94,21 @@ RUN groupadd -r www && \
     make && \
     make install && \
     ldconfig && \ 
+    # 设置环境变量
+    export PKG_CONFIG_PATH=${PKG_CONFIG_PATH} && \
     cd /home/www/soft && \
     # 下载 golang
     curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
+    # 设置环境变量
+    export PATH=${PATH} && \
+    export GOENV=${GOENV} && \
+    export GOTMPDIR=${GOTMPDIR} && \
+    export GOBIN=${GOBIN} && \
+    export GOCACHE=${GOCACHE} && \
+    export GOPATH=${GOPATH} && \
+    export GO111MODULE=${GO111MODULE} && \
+    export GOPROXY=${GOPROXY} && \
     # 下载 lua
     curl -L -o lua-${LUA_VERSION}.tar.gz ${LUA_URL} && \
     tar -zxf lua-${LUA_VERSION}.tar.gz && \
@@ -126,6 +137,9 @@ RUN groupadd -r www && \
     cd /home/www/soft/lua-${LUA_VERSION} && \
     make linux && \
     make install && \
+    # 设置环境变量
+    export LUAJIT_LIB=${LUAJIT_LIB} && \
+    export LUAJIT_INC=${LUAJIT_INC} && \
     #安装 luajit
     cd /home/www/soft/LuaJIT-${LUAJIT_VERSION} && \
     make install PREFIX=/usr/local/luajit && \
@@ -143,22 +157,7 @@ RUN groupadd -r www && \
     cd /home/www/soft/lua-cjson-${LUA_CJSON_VERSION} && \
     make && \
     make install && \
-
-
     cd /home/www && \
-    rm -rf  /home/www/soft
-
-ENV PATH /usr/local/go/bin:$PATH
-ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
-ENV GOENV /home/www/golang/env
-ENV GOTMPDIR /home/www/golang/tmp
-ENV GOBIN /home/www/golang/bin
-ENV GOCACHE /home/www/golang/cache
-ENV GOPATH /home/www/golang
-ENV GO111MODULE "on"
-ENV GOPROXY "https://goproxy.cn,direct"
-
-RUN cd /home/www && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
     mkdir -pv /home/www/golang/env && \
@@ -179,9 +178,15 @@ RUN cd /home/www && \
     rm -rf /home/www/golang/tmp/* && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/pkg/* && \
+    apt autoclean && \
+    apt-get -y autoremove && \
+    apt-get -y clean && \
     rm -rf /tmp/* && \
     rm -rf /var/log/* && \
     rm -rf /var/cache/* && \
-    rm -rf /var/lib/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/* && \
+    rm -rf  /home/www/soft
 ENV PATH /home/www/golang/bin:$PATH
 WORKDIR /home/www
