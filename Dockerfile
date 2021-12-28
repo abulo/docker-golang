@@ -178,7 +178,7 @@ RUN groupadd -r www && \
     rm -rf /home/www/golang/tmp/* && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/pkg/* && \
-    apt autoclean && \
+    apt autoclean -y && \
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /tmp/* && \
