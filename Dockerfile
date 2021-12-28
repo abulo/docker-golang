@@ -20,7 +20,7 @@ ARG RESTY_OPENSSL_URL_BASE="https://www.openssl.org/source"
 ARG RESTY_PCRE_VERSION="8.45"
 
 # 设置源
-RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
+# RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
 RUN groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
