@@ -48,6 +48,7 @@ ARG GO111MODULE="on"
 ARG GOPROXY="https://goproxy.cn,direct"
 ARG LUAJIT_LIB=/usr/local/luajit/lib
 ARG LUAJIT_INC=/usr/local/luajit/include/luajit-2.0
+ARG GOENVPATH=/home/www/golang/bin:$PATH
 
 # 设置源
 # RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
@@ -165,6 +166,8 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
+    export PATH=${GOENVPATH} && \
+    go version && \
     go get golang.org/x/tools/cmd/goimports  && \ 
     go get github.com/fzipp/gocyclo/cmd/gocyclo && \ 
     go get golang.org/x/tools/cmd/gotype && \ 
@@ -188,5 +191,4 @@ RUN groupadd -r www && \
     rm -rf /tmp/* && \
     rm -rf /var/tmp/* && \
     rm -rf  /home/www/soft
-ENV PATH /home/www/golang/bin:$PATH
 WORKDIR /home/www
