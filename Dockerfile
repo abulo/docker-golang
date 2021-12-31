@@ -41,10 +41,10 @@ RUN groupadd -r www && \
     ln -s /usr/lib/libiconv_hook.so.1.0.0 /usr/lib/libiconv.so && \
     ln -s /usr/lib/libiconv_hook.so.1.0.0 /usr/lib/libiconv.so.1 && \
     cd /home/www && \
+    mkdir -pv /home/www/soft && \
     cd /home/www/soft && \
     curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
-    cd /home/www/soft && \
     curl -L -o tengine-${TENGINE_VERSION}.tar.gz ${TENGINE_URL} && \
     tar -zxf tengine-${TENGINE_VERSION}.tar.gz && \
     cd tengine-${TENGINE_VERSION} && \
@@ -67,7 +67,6 @@ RUN groupadd -r www && \
     rm -rf /var/tmp/* && \
     rm -rf  /home/www/soft
 ENV PATH /usr/local/go/bin:$PATH
-ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 ENV GOENV /home/www/golang/env
 ENV GOTMPDIR /home/www/golang/tmp
 ENV GOBIN /home/www/golang/bin
