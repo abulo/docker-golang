@@ -87,9 +87,13 @@ RUN go get golang.org/x/tools/cmd/goimports  && \
     rm -rf /home/www/golang/tmp/* && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/pkg/* && \
+    apt-get remove -f && \
+    apt-get autoremove -y && \
+    apt-get clean all && \
     rm -rf /tmp/* && \
     rm -rf /var/log/* && \
     rm -rf /var/cache/* && \
-    rm -rf /var/lib/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /var/tmp/* && \
 ENV PATH /home/www/golang/bin:$PATH
 WORKDIR /home/www
