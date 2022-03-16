@@ -124,14 +124,14 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    go get golang.org/x/tools/cmd/goimports  && \
-    go get github.com/fzipp/gocyclo/cmd/gocyclo && \
-    go get golang.org/x/tools/cmd/gotype && \
-    go get mvdan.cc/interfacer && \
-    go get github.com/tsenart/deadcode && \
-    go get github.com/client9/misspell/cmd/misspell && \
-    go get github.com/jgautheron/goconst/cmd/goconst && \
-    go get honnef.co/go/tools/cmd/... && \
+    go install golang.org/x/tools/cmd/goimports@latest  && \
+    go install github.com/fzipp/gocyclo/cmd/gocyclo@latest && \
+    go install golang.org/x/tools/cmd/gotype@latest && \
+    go install mvdan.cc/interfacer@latest && \
+    go install github.com/tsenart/deadcode@latest && \
+    go install github.com/client9/misspell/cmd/misspell@latest && \
+    go install github.com/jgautheron/goconst/cmd/goconst@latest && \
+    go install honnef.co/go/tools/cmd/...@latest && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/vendor/* && \
     rm -rf /home/www/golang/tmp/* && \
