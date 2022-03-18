@@ -132,6 +132,8 @@ RUN groupadd -r www && \
     go install github.com/client9/misspell/cmd/misspell@latest && \
     go install github.com/jgautheron/goconst/cmd/goconst@latest && \
     go install honnef.co/go/tools/cmd/...@latest && \
+    go install github.com/jteeuwen/go-bindata/...@latest && \
+    go install github.com/elazarl/go-bindata-assetfs/...@latest && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/vendor/* && \
     rm -rf /home/www/golang/tmp/* && \
