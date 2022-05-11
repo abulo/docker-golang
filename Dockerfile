@@ -19,14 +19,14 @@ ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
 
 ARG RESTY_VERSION="1.19.9.1"
-ARG RESTY_LUAROCKS_VERSION="3.8.0"
+ARG RESTY_LUAROCKS_VERSION="3.9.0"
 ARG RESTY_OPENSSL_VERSION="1.1.1l"
 ARG RESTY_OPENSSL_PATCH_VERSION="1.1.1f"
 ARG RESTY_OPENSSL_URL_BASE="https://www.openssl.org/source"
 ARG RESTY_PCRE_VERSION="8.45"
 ARG VIPS_VERSION="8.12.2"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
-ARG GOLANG_VERSION="1.18.1"
+ARG GOLANG_VERSION="1.18.2"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 # ARG GOLANG_URL=https://studygolang.com/dl/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz
 # 设置源
