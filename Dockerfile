@@ -130,18 +130,12 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    go install golang.org/x/tools/cmd/goimports@latest  && \
-    go install github.com/fzipp/gocyclo/cmd/gocyclo@latest && \
-    go install golang.org/x/tools/cmd/gotype@latest && \
-    go install mvdan.cc/interfacer@latest && \
-    go install github.com/tsenart/deadcode@latest && \
-    go install github.com/client9/misspell/cmd/misspell@latest && \
-    go install github.com/jgautheron/goconst/cmd/goconst@latest && \
-    go install honnef.co/go/tools/cmd/...@latest && \
     go install github.com/jteeuwen/go-bindata/...@latest && \
     go install github.com/elazarl/go-bindata-assetfs/...@latest && \
     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && \
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
+    go install github.com/oligot/go-mod-upgrade@latest  && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/vendor/* && \
     rm -rf /home/www/golang/tmp/* && \
