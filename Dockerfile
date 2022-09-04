@@ -136,6 +136,14 @@ RUN groupadd -r www && \
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && \
     go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
     go install github.com/oligot/go-mod-upgrade@latest  && \
+    go install golang.org/x/tools/cmd/goimports@latest && \
+    go install github.com/cweill/gotests/gotests@latest  && \
+    go install github.com/fatih/gomodifytags@latest  && \
+    go install github.com/josharian/impl@latest  && \
+    go install github.com/haya14busa/goplay/cmd/goplay@latest && \
+    go install github.com/go-delve/delve/cmd/dlv@latest  && \
+    go install honnef.co/go/tools/cmd/staticcheck@latest  && \
+    go install golang.org/x/tools/gopls@latest  && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/vendor/* && \
     rm -rf /home/www/golang/tmp/* && \
