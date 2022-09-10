@@ -19,17 +19,29 @@ ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
 
 ARG RESTY_VERSION="1.21.4.1"
+ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
+
 ARG RESTY_LUAROCKS_VERSION="3.9.1"
+ARG RESTY_LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz
+
 ARG RESTY_OPENSSL_VERSION="1.1.1l"
+ARG RESTY_OPENSSL_URL= https://www.openssl.org/source/openssl-${RESTY_OPENSSL_VERSION}.tar.gz
+
 ARG RESTY_OPENSSL_PATCH_VERSION="1.1.1f"
-ARG RESTY_OPENSSL_URL_BASE="https://www.openssl.org/source"
+ARG RESTY_OPENSSL_PATCH_URL=https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-${RESTY_OPENSSL_PATCH_VERSION}-sess_set_get_cb_yield.patch
+
 ARG RESTY_PCRE_VERSION="8.45"
-ARG VIPS_VERSION="8.13.0"
+ARG RESTY_PCRE_URL=https://downloads.sourceforge.net/project/pcre/pcre/${RESTY_PCRE_VERSION}/pcre-${RESTY_PCRE_VERSION}.tar.gz
+
+ARG VIPS_VERSION="8.13.1"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
-ARG GOLANG_VERSION="1.19"
+
+ARG GOLANG_VERSION="1.19.1"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
+
 ARG PROTOBUF_VERSION="3.20.1"
-# ARG GOLANG_URL=https://studygolang.com/dl/golang/go${GOLANG_VERSION}.linux-amd64.tar.gz
+ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
+
 # 设置源
 # RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
 RUN groupadd -r www && \
@@ -71,24 +83,24 @@ RUN groupadd -r www && \
     ldconfig && \
     #安装 openresty
     #install openssl
-    curl -fSL "${RESTY_OPENSSL_URL_BASE}/openssl-${RESTY_OPENSSL_VERSION}.tar.gz" -o openssl-${RESTY_OPENSSL_VERSION}.tar.gz && \
+    curl -fSL ${RESTY_OPENSSL_URL} -o openssl-${RESTY_OPENSSL_VERSION}.tar.gz && \
     tar xzf openssl-${RESTY_OPENSSL_VERSION}.tar.gz && \
     cd openssl-${RESTY_OPENSSL_VERSION} && \
     if [ $(echo ${RESTY_OPENSSL_VERSION} | cut -c 1-5) = "1.1.1" ] ; then \
         echo 'patching OpenSSL 1.1.1 for OpenResty' \
-        && curl -s https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-${RESTY_OPENSSL_PATCH_VERSION}-sess_set_get_cb_yield.patch | patch -p1 ; \
+        && curl -s ${RESTY_OPENSSL_PATCH_URL} | patch -p1 ; \
     fi && \
     if [ $(echo ${RESTY_OPENSSL_VERSION} | cut -c 1-5) = "1.1.0" ] ; then \
         echo 'patching OpenSSL 1.1.0 for OpenResty' \
         && curl -s https://raw.githubusercontent.com/openresty/openresty/ed328977028c3ec3033bc25873ee360056e247cd/patches/openssl-1.1.0j-parallel_build_fix.patch | patch -p1 \
-        && curl -s https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-${RESTY_OPENSSL_PATCH_VERSION}-sess_set_get_cb_yield.patch | patch -p1 ; \
+        && curl -s ${RESTY_OPENSSL_PATCH_URL} | patch -p1 ; \
     fi && \
     ./config  no-threads shared zlib -g  enable-ssl3 enable-ssl3-method  --prefix=/usr/local/openresty/openssl  --libdir=lib  -Wl,-rpath,/usr/local/openresty/openssl/lib && \
     make  && \
     make  install_sw && \
     #install pcre
     cd /home/www/soft && \
-    curl -fSL https://downloads.sourceforge.net/project/pcre/pcre/${RESTY_PCRE_VERSION}/pcre-${RESTY_PCRE_VERSION}.tar.gz -o pcre-${RESTY_PCRE_VERSION}.tar.gz && \
+    curl -fSL ${RESTY_PCRE_URL} -o pcre-${RESTY_PCRE_VERSION}.tar.gz && \
     tar xzf pcre-${RESTY_PCRE_VERSION}.tar.gz && \
     cd pcre-${RESTY_PCRE_VERSION} && \
     ./configure --prefix=/usr/local/openresty/pcre --disable-cpp --enable-jit --enable-utf --enable-unicode-properties  && \
@@ -96,7 +108,7 @@ RUN groupadd -r www && \
     make install && \
     #install openresty
     cd /home/www/soft && \
-    curl -fSL https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz -o openresty-${RESTY_VERSION}.tar.gz && \
+    curl -fSL ${RESTY_URL} -o openresty-${RESTY_VERSION}.tar.gz && \
     tar xzf openresty-${RESTY_VERSION}.tar.gz && \
     cd openresty-${RESTY_VERSION} && \
     mkdir module && \
@@ -110,14 +122,14 @@ RUN groupadd -r www && \
     make install && \
     #install luarocks
     cd /home/www/soft && \
-    curl -fSL https://luarocks.github.io/luarocks/releases/luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz -o luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz && \
+    curl -fSL ${RESTY_LUAROCKS_URL} -o luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz && \
     tar xzf luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz && \
     cd luarocks-${RESTY_LUAROCKS_VERSION} && \
     ./configure --prefix=/usr/local/openresty/luajit --with-lua=/usr/local/openresty/luajit --lua-suffix=jit-2.1.0-beta3 --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 && \
     make build  && \
     make install && \
     cd /home/www/soft && \
-    curl -fSL  https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip -o protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
+    curl -fSL  ${PROTOBUF_URL} -o protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
     unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
