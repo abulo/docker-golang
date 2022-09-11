@@ -25,7 +25,7 @@ ARG RESTY_LUAROCKS_VERSION="3.9.1"
 ARG RESTY_LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz
 
 ARG RESTY_OPENSSL_VERSION="1.1.1l"
-ARG RESTY_OPENSSL_URL= https://www.openssl.org/source/openssl-${RESTY_OPENSSL_VERSION}.tar.gz
+ARG RESTY_OPENSSL_URL=https://www.openssl.org/source/openssl-${RESTY_OPENSSL_VERSION}.tar.gz
 
 ARG RESTY_OPENSSL_PATCH_VERSION="1.1.1f"
 ARG RESTY_OPENSSL_PATCH_URL=https://raw.githubusercontent.com/openresty/openresty/master/patches/openssl-${RESTY_OPENSSL_PATCH_VERSION}-sess_set_get_cb_yield.patch
