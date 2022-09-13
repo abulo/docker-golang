@@ -50,7 +50,7 @@ ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v
 
 
 # 设置源
-RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
+# RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
 
 RUN groupadd -r www && \
 	useradd -r -g www www && \
@@ -172,7 +172,6 @@ RUN groupadd -r www && \
     rm -rf /var/cache/* && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/tmp/*
-
 
 ENV LUA_PATH="/usr/local/openresty/site/lualib/?.ljbc;/usr/local/openresty/site/lualib/?/init.ljbc;/usr/local/openresty/lualib/?.ljbc;/usr/local/openresty/lualib/?/init.ljbc;/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua;/usr/local/openresty/luajit/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/openresty/luajit/share/lua/5.1/?.lua;/usr/local/openresty/luajit/share/lua/5.1/?/init.lua"
 

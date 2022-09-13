@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 # 维护者信息
 LABEL maintainer="Abulo Hoo"
 LABEL maintainer-email="abulo.hoo@gmail.com"
@@ -50,7 +50,7 @@ ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v
 
 
 # 设置源
-# RUN  sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
+# RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
 
 RUN groupadd -r www && \
 	useradd -r -g www www && \
