@@ -37,7 +37,7 @@ ARG RESTY_PCRE_VERSION="8.45"
 ARG RESTY_PCRE_URL=https://downloads.sourceforge.net/project/pcre/pcre/${RESTY_PCRE_VERSION}/pcre-${RESTY_PCRE_VERSION}.tar.gz
 
 # vips 版本
-ARG VIPS_VERSION="8.13.0"
+ARG VIPS_VERSION="8.13.1"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
