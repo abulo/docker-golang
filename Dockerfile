@@ -127,6 +127,9 @@ RUN groupadd -r www && \
     ./configure --prefix=/usr/local/openresty/luajit --with-lua=/usr/local/openresty/luajit --lua-suffix=jit-2.1.0-beta3 --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 && \
     make build  && \
     make install && \
+    luarocks install lua-resty-http && \
+    luarocks install lua-resty-jwt && \
+    luarocks install lua-resty-mlcache && \
     # install protoc
     cd /home/www/soft && \
     curl -fSL  ${PROTOBUF_URL} -o protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
