@@ -82,7 +82,6 @@ RUN groupadd -r www && \
     #install nodejs
     curl -fsSL https://deb.nodesource.com/setup_16.x |  bash - && \
     apt-get install --no-install-recommends -y -q nodejs && \
-    curl -fsSL https://get.pnpm.io/install.sh | bash - && \
     # mkdir workspace
     mkdir -pv /home/www/soft && \
     cd /home/www/soft && \
