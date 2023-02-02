@@ -46,7 +46,7 @@ ARG VIPS_VERSION="8.13.0"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
-ARG GOLANG_VERSION="1.19.5"
+ARG GOLANG_VERSION="1.20"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
@@ -164,6 +164,8 @@ RUN groupadd -r www && \
     go install github.com/go-delve/delve/cmd/dlv@latest  && \
     go install honnef.co/go/tools/cmd/staticcheck@latest  && \
     go install golang.org/x/tools/gopls@latest  && \
+    go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest  && \
+    go install github.com/syncore/protoc-go-inject-tag@latest  && \
     luarocks install lua-resty-http && \
     luarocks install lua-resty-jwt && \
     luarocks install lua-resty-mlcache && \
