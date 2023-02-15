@@ -46,7 +46,7 @@ ARG VIPS_VERSION="8.13.0"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
-ARG GOLANG_VERSION="1.20"
+ARG GOLANG_VERSION="1.20.1"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
@@ -141,6 +141,11 @@ RUN groupadd -r www && \
     unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
+    # install toolkit
+    cd /home/www/soft && \
+    git clone --depth=1 https://github.com/abulo/toolkit.git
+    cd toolkit;
+    go install;
     cd /home/www && \
     rm -rf /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
@@ -174,6 +179,7 @@ RUN groupadd -r www && \
     rm -rf /home/www/golang/tmp/* && \
     rm -rf /home/www/golang/cache/* && \
     rm -rf /home/www/golang/pkg/* && \
+    rm -rf /home/www/golang/mod/* && \
     apt-get clean && \
     apt-get remove -f && \
     apt-get autoremove -y && \
@@ -185,7 +191,4 @@ RUN groupadd -r www && \
     rm -rf /var/cache/* && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/tmp/*
-
-
-
 WORKDIR /home/www
