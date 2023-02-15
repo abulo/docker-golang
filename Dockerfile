@@ -141,12 +141,12 @@ RUN groupadd -r www && \
     unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
-    cd /home/www && \
     # install toolkit
     cd /home/www/soft && \
     git clone --depth=1 https://github.com/abulo/toolkit.git  && \
     cd toolkit  && \
     go install  && \
+    cd /home/www && \
     rm -rf /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
