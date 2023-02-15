@@ -4,8 +4,5 @@
         "articleid",
         "imageid",
         "imagename"
-    ],
-    "cSpell.words": [
-        "dockerhub"
     ]
 }
