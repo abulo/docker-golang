@@ -149,13 +149,7 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    # install toolkit
-    cd /home/www/soft && \
-    git clone --depth=1 https://github.com/abulo/toolkit.git  && \
-    cd toolkit  && \
-    go install  && \
-    cd /home/www && \
-    rm -rf /home/www/soft && \
+    go install github.com/abulo/ratel/v3/toolkit@latest && \
     go install github.com/jteeuwen/go-bindata/...@latest && \
     go install github.com/elazarl/go-bindata-assetfs/...@latest && \
     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
