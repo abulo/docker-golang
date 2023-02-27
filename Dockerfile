@@ -142,6 +142,7 @@ RUN groupadd -r www && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
     cd /home/www && \
+    rm -rf /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
     mkdir -pv /home/www/golang/cache && \
     mkdir -pv /home/www/golang/env && \
