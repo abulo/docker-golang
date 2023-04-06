@@ -30,7 +30,7 @@ ARG RESTY_VERSION="1.21.4.1"
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
-ARG RESTY_LUAROCKS_VERSION="3.9.1"
+ARG RESTY_LUAROCKS_VERSION="3.9.2"
 ARG RESTY_LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz
 
 # openssl 版本
@@ -46,11 +46,11 @@ ARG VIPS_VERSION="8.13.0"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
-ARG GOLANG_VERSION="1.20.2"
+ARG GOLANG_VERSION="1.20.3"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
-ARG PROTOBUF_VERSION="3.20.1"
+ARG PROTOBUF_VERSION="3.20.3"
 ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
 
