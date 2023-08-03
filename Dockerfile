@@ -26,7 +26,7 @@ ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
 
 # openresty 版本
-ARG RESTY_VERSION="1.21.4.1"
+ARG RESTY_VERSION="1.21.4.2"
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
@@ -46,7 +46,7 @@ ARG VIPS_VERSION="8.13.0"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
-ARG GOLANG_VERSION="1.20.6"
+ARG GOLANG_VERSION="1.20.7"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
