@@ -167,6 +167,7 @@ RUN groupadd -r www && \
     go install golang.org/x/tools/gopls@latest  && \
     go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest  && \
     go install github.com/syncore/protoc-go-inject-tag@latest  && \
+    go install golang.org/x/vuln/cmd/govulncheck@latest && \
     luarocks install lua-resty-http && \
     luarocks install lua-resty-jwt && \
     luarocks install lua-resty-mlcache && \
