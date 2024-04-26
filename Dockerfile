@@ -26,7 +26,7 @@ ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
 
 # openresty 版本
-ARG RESTY_VERSION="1.21.4.2"
+ARG RESTY_VERSION="1.21.4.3"
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
