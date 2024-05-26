@@ -1,5 +1,5 @@
 FROM ubuntu:20.04
-# 维护者信息
+# 维护者信息 
 LABEL maintainer="Abulo Hoo"
 LABEL maintainer-email="abulo.hoo@gmail.com"
 
