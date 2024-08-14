@@ -10,7 +10,7 @@ ENV GOBIN=/home/www/golang/bin
 ENV GOCACHE=/home/www/golang/cache
 ENV GOPATH=/home/www/golang
 ENV GO111MODULE="on"
-ENV GOPROXY="https://goproxy.cn,direct"
+# ENV GOPROXY="https://goproxy.cn,direct"
 ENV PATH /home/www/golang/bin:$PATH
 ENV PATH /usr/local/go/bin:$PATH
 ENV LUA_PATH "/usr/local/openresty/site/lualib/?.ljbc;/usr/local/openresty/site/lualib/?/init.ljbc;/usr/local/openresty/lualib/?.ljbc;/usr/local/openresty/lualib/?/init.ljbc;/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua;/usr/local/openresty/luajit/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/openresty/luajit/share/lua/5.1/?.lua;/usr/local/openresty/luajit/share/lua/5.1/?/init.lua"
@@ -152,23 +152,23 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
     # go install github.com/abulo/ratel/v3/toolkit@latest && \
-    go install github.com/jteeuwen/go-bindata/...@latest && \
-    go install github.com/elazarl/go-bindata-assetfs/...@latest && \
-    go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
-    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && \
-    go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
-    go install github.com/oligot/go-mod-upgrade@latest  && \
-    go install golang.org/x/tools/cmd/goimports@latest && \
-    go install github.com/cweill/gotests/gotests@latest  && \
-    go install github.com/fatih/gomodifytags@latest  && \
-    go install github.com/josharian/impl@latest  && \
-    go install github.com/haya14busa/goplay/cmd/goplay@latest && \
-    go install github.com/go-delve/delve/cmd/dlv@latest  && \
-    go install honnef.co/go/tools/cmd/staticcheck@latest  && \
-    go install golang.org/x/tools/gopls@latest  && \
-    go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest  && \
-    go install github.com/syncore/protoc-go-inject-tag@latest  && \
-    go install golang.org/x/vuln/cmd/govulncheck@latest && \
+    # go install github.com/jteeuwen/go-bindata/...@latest && \
+    # go install github.com/elazarl/go-bindata-assetfs/...@latest && \
+    # go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
+    # go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest && \
+    # go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && \
+    # go install github.com/oligot/go-mod-upgrade@latest  && \
+    # go install golang.org/x/tools/cmd/goimports@latest && \
+    # go install github.com/cweill/gotests/gotests@latest  && \
+    # go install github.com/fatih/gomodifytags@latest  && \
+    # go install github.com/josharian/impl@latest  && \
+    # go install github.com/haya14busa/goplay/cmd/goplay@latest && \
+    # go install github.com/go-delve/delve/cmd/dlv@latest  && \
+    # go install honnef.co/go/tools/cmd/staticcheck@latest  && \
+    # go install golang.org/x/tools/gopls@latest  && \
+    # go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest  && \
+    # go install github.com/syncore/protoc-go-inject-tag@latest  && \
+    # go install golang.org/x/vuln/cmd/govulncheck@latest && \
     luarocks install lua-resty-http && \
     luarocks install lua-resty-jwt && \
     luarocks install lua-resty-mlcache && \
