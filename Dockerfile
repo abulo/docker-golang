@@ -79,7 +79,7 @@ RUN groupadd -r www && \
     rm /etc/localtime && \
     ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get install --no-install-recommends -y -q gnupg libxml2 libxml2-dev build-essential openssl libssl-dev make curl libjpeg-dev libpng-dev libmcrypt-dev libreadline8 libmhash-dev libfreetype6-dev libkrb5-dev libc-client2007e libc-client2007e-dev libbz2-dev libxslt1-dev libxslt1.1 libpq-dev libpng++-dev libpng-dev git autoconf automake m4 libmagickcore-dev libmagickwand-dev libcurl4-openssl-dev libltdl-dev libmhash2 libiconv-hook-dev libiconv-hook1 libpcre3-dev libgmp-dev gcc g++ ssh cmake re2c wget cron bzip2 flex vim bison mawk cpp binutils libncurses5 unzip tar libncurses5-dev libtool libpcre3 libpcrecpp0v5 libltdl3-dev slapd ldap-utils db5.3-util libldap2-dev libsasl2-dev net-tools libicu-dev libtidy-dev systemtap-sdt-dev libgmp3-dev gettext libexpat1-dev libz-dev libedit-dev libdmalloc-dev libevent-dev libyaml-dev autotools-dev pkg-config zlib1g-dev libcunit1-dev libev-dev libjansson-dev libc-ares-dev python3-dev python-setuptools libreadline-dev perl python3-pip zsh tcpdump strace gdb openbsd-inetd telnetd htop valgrind jpegoptim optipng pngquant iputils-ping gifsicle imagemagick libmagick++-dev libopenslide-dev libtiff5-dev libgdk-pixbuf2.0-dev libsqlite3-dev libcairo2-dev libglib2.0-dev sqlite3 gobject-introspection gtk-doc-tools libwebp-dev libexif-dev libgsf-1-dev liblcms2-dev swig libtiff5-dev libgd-dev libgeoip-dev supervisor nload tree software-properties-common apt-utils ca-certificates gettext-base libperl-dev libdlib-dev libblas-dev libatlas-base-dev liblapack-dev libjpeg-turbo8-dev && \
+    apt-get install --no-install-recommends -y -q gnupg libxml2 libxml2-dev build-essential openssl libssl-dev make curl libjpeg-dev libpng-dev libmcrypt-dev libreadline8 libmhash-dev libfreetype6-dev libkrb5-dev libc-client2007e libc-client2007e-dev libbz2-dev libxslt1-dev libxslt1.1 libpq-dev libpng++-dev libpng-dev git autoconf automake m4 libmagickcore-dev libmagickwand-dev libcurl4-openssl-dev libltdl-dev libmhash2 libiconv-hook-dev libiconv-hook1 libpcre3-dev libgmp-dev gcc g++ ssh cmake re2c wget cron bzip2 flex vim bison mawk cpp binutils libncurses5 unzip tar libncurses5-dev libtool libpcre3 libpcrecpp0v5 libltdl3-dev slapd ldap-utils db5.3-util libldap2-dev libsasl2-dev net-tools libicu-dev libtidy-dev systemtap-sdt-dev libgmp3-dev gettext libexpat1-dev libz-dev libedit-dev libdmalloc-dev libevent-dev libyaml-dev autotools-dev pkg-config zlib1g-dev libcunit1-dev libev-dev libjansson-dev libc-ares-dev python3-dev python-setuptools libreadline-dev perl python3-pip zsh tcpdump strace gdb openbsd-inetd telnetd htop valgrind jpegoptim optipng pngquant iputils-ping gifsicle imagemagick libmagick++-dev libopenslide-dev libtiff5-dev libgdk-pixbuf2.0-dev libsqlite3-dev libcairo2-dev libglib2.0-dev sqlite3 gobject-introspection gtk-doc-tools libwebp-dev libexif-dev libgsf-1-dev liblcms2-dev swig libtiff5-dev libgd-dev libgeoip-dev supervisor nload tree software-properties-common apt-utils ca-certificates gettext-base libperl-dev libdlib-dev libblas-dev libatlas-base-dev liblapack-dev libjpeg-turbo8-dev libvips-dev libvips libvips-tools && \
     #install nodejs
     # curl -fsSL https://deb.nodesource.com/setup_16.x |  bash - && \
     # apt-get install --no-install-recommends -y -q nodejs && \
@@ -90,14 +90,14 @@ RUN groupadd -r www && \
     curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
     #install vips
-    cd /home/www/soft && \
-    curl -L -o vips-${VIPS_VERSION}.tar.gz ${VIPS_URL} && \
-    tar -zxf vips-${VIPS_VERSION}.tar.gz && \
-    cd vips-${VIPS_VERSION} && \
-    CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" ./configure --disable-debug --disable-docs --disable-static --disable-introspection --disable-dependency-tracking --enable-cxx=yes --without-python --without-orc --without-fftw && \
-    make -j && \
-    make install && \
-    ldconfig && \
+    # cd /home/www/soft && \
+    # curl -L -o vips-${VIPS_VERSION}.tar.gz ${VIPS_URL} && \
+    # tar -zxf vips-${VIPS_VERSION}.tar.gz && \
+    # cd vips-${VIPS_VERSION} && \
+    # CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" ./configure --disable-debug --disable-docs --disable-static --disable-introspection --disable-dependency-tracking --enable-cxx=yes --without-python --without-orc --without-fftw && \
+    # make -j && \
+    # make install && \
+    # ldconfig && \
     # install openssl
     cd /home/www/soft && \
     curl -fSL ${RESTY_OPENSSL_URL} -o openssl-${RESTY_OPENSSL_VERSION}.tar.gz && \
@@ -151,7 +151,7 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    go install github.com/abulo/ratel/v3/toolkit@latest && \
+    # go install github.com/abulo/ratel/v3/toolkit@latest && \
     go install github.com/jteeuwen/go-bindata/...@latest && \
     go install github.com/elazarl/go-bindata-assetfs/...@latest && \
     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
