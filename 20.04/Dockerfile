@@ -46,7 +46,7 @@ ARG VIPS_VERSION="8.13.0"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
-ARG GOLANG_VERSION="1.22.6"
+ARG GOLANG_VERSION="1.23.0"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
@@ -151,7 +151,7 @@ RUN groupadd -r www && \
     mkdir -pv /home/www/golang/src && \
     mkdir -pv /home/www/golang/tmp && \
     mkdir -pv /home/www/golang/vendor && \
-    go install github.com/abulo/ratel/v3/toolkit@latest && \
+    # go install github.com/abulo/ratel/v3/toolkit@latest && \
     go install github.com/jteeuwen/go-bindata/...@latest && \
     go install github.com/elazarl/go-bindata-assetfs/...@latest && \
     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
