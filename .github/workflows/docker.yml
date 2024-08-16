@@ -28,44 +28,23 @@ jobs:
           username: abulo
           password: ${{ secrets.ACCESS_TOKEN }}
       -
-        name: Build and push
+        name: Build and Push Latest
         uses: docker/build-push-action@v6
         with:
-          context: .
+          file: ./Dockerfile
           push: true
           tags: abulo/docker-golang:latest
-
-
-
-# jobs:
-#   push:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       # 构建镜像，指定镜像名
-#       - name: Build image
-#         run: docker build . --file Dockerfile --tag $IMAGENAME
-#         # 登录到 dockerhub，使用 GitHub secrets 传入账号密码，密码被加密存储在 GitHub 服务器，添加方法见下图。
-#       - name: Log into registry
-#         run: echo "${{ secrets.ACCESS_TOKEN }}" | docker login -u abulo --password-stdin
-
-#       - name: Push image
-#         run: |
-#           # 拼接镜像 id，这个镜像 id 就是在使用 docker 镜像时 pull 后面的名字。
-#           IMAGEID=abulo/$IMAGENAME
-
-#           # 将所有的大写字母转为小写
-#           IMAGEID=$(echo $IMAGEID | tr '[A-Z]' '[a-z]')
-
-#           # 从 GitHub.ref 中取出版本
-#           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-#           # Use Docker `latest` tag convention
-#           [ "$VERSION" == "main" ] && VERSION=latest
-
-#           echo IMAGEID=$IMAGEID
-#           echo VERSION=$VERSION
-#           # 设置镜像 id 和版本号
-#           docker tag $IMAGENAME $IMAGEID:$VERSION
-#           # 进行 push
-#           docker push $IMAGEID:$VERSION
+      -
+        name:  Build and Push 22.04
+        uses: docker/build-push-action@v6
+        with:
+          file: ./22.04/Dockerfile
+          push: true
+          tags: abulo/docker-golang:22.04
+      -
+        name: Build and Push 20.04
+        uses: docker/build-push-action@v6
+        with:
+          file: ./20.04/Dockerfile
+          push: true
+          tags: abulo/docker-golang:20.04
