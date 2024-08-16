@@ -28,24 +28,23 @@ jobs:
           username: abulo
           password: ${{ secrets.ACCESS_TOKEN }}
       -
-        name: Build and Push 20.04
-        uses: docker/build-push-action@v6
-        with:
-          file: ./20.04/Dockerfile
-          push: true
-          tags: abulo/docker-golang:20.04
-      # -
-      #   name:  Build and Push 22.04
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     file: ./22.04/Dockerfile
-      #     push: true
-      #     tags: abulo/docker-golang:22.04
-      -
         name: Build and Push Latest
         uses: docker/build-push-action@v6
         with:
           file: ./Dockerfile
           push: true
           tags: abulo/docker-golang:latest
-
+      -
+        name:  Build and Push 22.04
+        uses: docker/build-push-action@v6
+        with:
+          file: ./22.04/Dockerfile
+          push: true
+          tags: abulo/docker-golang:22.04
+      -
+        name: Build and Push 20.04
+        uses: docker/build-push-action@v6
+        with:
+          file: ./20.04/Dockerfile
+          push: true
+          tags: abulo/docker-golang:20.04
