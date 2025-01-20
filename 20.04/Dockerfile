@@ -50,7 +50,7 @@ ARG GOLANG_VERSION="1.23.5"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
-ARG PROTOBUF_VERSION="29.2"
+ARG PROTOBUF_VERSION="29.3"
 ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
 
