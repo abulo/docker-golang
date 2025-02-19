@@ -53,6 +53,9 @@ ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 ARG PROTOBUF_VERSION="29.3"
 ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
+# ta-lib 版本
+ARG TALIB_VERSION="0.6.4"
+ARG TALIB_URL=https://github.com/TA-Lib/ta-lib/releases/download/v${TALIB_VERSION}/ta-lib-${TALIB_VERSION}-src.tar.gz
 
 # 设置源
 # RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
@@ -141,6 +144,17 @@ RUN groupadd -r www && \
     unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
+    # install ta-lib
+    cd /home/www/soft && \
+    curl -fSL ${TALIB_URL} -o ta-lib-${TALIB_VERSION}-src.tar.gz && \
+    tar xzf ta-lib-${TALIB_VERSION}-src.tar.gz && \
+    cd ta-lib-${TALIB_VERSION} && \
+    ./configure --prefix=/usr/local LDFLAGS="-lm" && \
+    make -j && \
+    make install && \
+    ldconfig && \
+    cd /usr/local/lib && \
+    ln -s libta-lib.so libta_lib.so && \
     cd /home/www && \
     rm -rf /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
