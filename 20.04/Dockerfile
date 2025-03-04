@@ -111,7 +111,7 @@ RUN groupadd -r www && \
     make -j && \
     make install && \
     ln -s /usr/local/lib/libjemalloc.so.2 /usr/lib/libjemalloc.so.1 && \
-    [ -z "`grep /usr/local/lib /etc/ld.so.conf.d/*.conf`" ] && echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf && ldconfig && \
+    ldconfig && \
     #install openresty
     cd /home/www/soft && \
     curl -fSL ${RESTY_URL} -o openresty-${RESTY_VERSION}.tar.gz && \
