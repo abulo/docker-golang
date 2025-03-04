@@ -10,7 +10,7 @@ ENV GOBIN=/home/www/golang/bin
 ENV GOCACHE=/home/www/golang/cache
 ENV GOPATH=/home/www/golang
 ENV GO111MODULE="on"
-ENV GOPROXY="https://goproxy.cn,direct"
+# ENV GOPROXY="https://goproxy.cn,direct"
 ENV PATH /home/www/golang/bin:$PATH
 ENV PATH /usr/local/go/bin:$PATH
 ENV LUA_PATH "/usr/local/openresty/site/lualib/?.ljbc;/usr/local/openresty/site/lualib/?/init.ljbc;/usr/local/openresty/lualib/?.ljbc;/usr/local/openresty/lualib/?/init.ljbc;/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua;/usr/local/openresty/luajit/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/openresty/luajit/share/lua/5.1/?.lua;/usr/local/openresty/luajit/share/lua/5.1/?/init.lua"
@@ -25,21 +25,25 @@ ARG LDAP_ORG=ldap
 ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
 
+# jemalloc 版本
+ARG JEMALLOC_VERSION="5.3.0"
+ARG JEMALLOC_URL=https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2
+
 # openresty 版本
-ARG RESTY_VERSION="1.21.4.3"
+ARG RESTY_VERSION="1.27.1.1"
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
-ARG RESTY_LUAROCKS_VERSION="3.9.2"
-ARG RESTY_LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz
+ARG LUAROCKS_VERSION="3.9.2"
+ARG LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${LUAROCKS_VERSION}.tar.gz
 
 # openssl 版本
-ARG RESTY_OPENSSL_VERSION="1.1.1q"
-ARG RESTY_OPENSSL_URL=https://www.openssl.org/source/openssl-${RESTY_OPENSSL_VERSION}.tar.gz
+ARG OPENSSL_VERSION="3.4.1"
+ARG OPENSSL_URL=https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 
 # pcre 版本
-ARG RESTY_PCRE_VERSION="8.45"
-ARG RESTY_PCRE_URL=https://downloads.sourceforge.net/project/pcre/pcre/${RESTY_PCRE_VERSION}/pcre-${RESTY_PCRE_VERSION}.tar.gz
+ARG PCRE_VERSION="8.45"
+ARG PCRE_URL=https://downloads.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.gz
 
 # vips 版本
 ARG VIPS_VERSION="8.13.0"
@@ -82,68 +86,7 @@ RUN groupadd -r www && \
     ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
     apt-get install --no-install-recommends -y -q gnupg libxml2 libxml2-dev build-essential openssl libssl-dev make curl libjpeg-dev libpng-dev libmcrypt-dev libreadline8 libmhash-dev libfreetype6-dev libkrb5-dev libc-client2007e libc-client2007e-dev libbz2-dev libxslt1-dev libxslt1.1 libpq-dev libpng++-dev libpng-dev git autoconf automake m4 libmagickcore-dev libmagickwand-dev libcurl4-openssl-dev libltdl-dev libmhash2 libiconv-hook-dev libiconv-hook1 libpcre3-dev libgmp-dev gcc g++ ssh cmake re2c wget cron bzip2 flex vim bison mawk cpp binutils libncurses5 unzip tar libncurses5-dev libtool libpcre3 libpcrecpp0v5 zlibc libltdl3-dev slapd ldap-utils db5.3-util libldap2-dev libsasl2-dev net-tools libicu-dev libtidy-dev systemtap-sdt-dev libgmp3-dev gettext libexpat1-dev libz-dev libedit-dev libdmalloc-dev libevent-dev libyaml-dev autotools-dev pkg-config zlib1g-dev libcunit1-dev libev-dev libjansson-dev libc-ares-dev cython python3-dev python-setuptools libreadline-dev perl python3-pip zsh tcpdump strace gdb openbsd-inetd telnetd htop valgrind jpegoptim optipng pngquant iputils-ping gifsicle imagemagick libmagick++-dev libopenslide-dev libtiff5-dev libgdk-pixbuf2.0-dev libsqlite3-dev libcairo2-dev libglib2.0-dev sqlite3 gobject-introspection gtk-doc-tools libwebp-dev libexif-dev libgsf-1-dev liblcms2-dev swig libtiff5-dev libgd-dev libgeoip-dev supervisor nload tree software-properties-common apt-utils ca-certificates gettext-base libperl-dev libdlib-dev libblas-dev libatlas-base-dev liblapack-dev libjpeg-turbo8-dev && \
-    #install nodejs
-    # curl -fsSL https://deb.nodesource.com/setup_16.x |  bash - && \
-    # apt-get install --no-install-recommends -y -q nodejs && \
-    # mkdir workspace
     mkdir -pv /home/www/soft && \
-    cd /home/www/soft && \
-    # install golang
-    curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
-    tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
-    #install vips
-    cd /home/www/soft && \
-    curl -L -o vips-${VIPS_VERSION}.tar.gz ${VIPS_URL} && \
-    tar -zxf vips-${VIPS_VERSION}.tar.gz && \
-    cd vips-${VIPS_VERSION} && \
-    CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" ./configure --disable-debug --disable-docs --disable-static --disable-introspection --disable-dependency-tracking --enable-cxx=yes --without-python --without-orc --without-fftw && \
-    make -j && \
-    make install && \
-    ldconfig && \
-    # install openssl
-    cd /home/www/soft && \
-    curl -fSL ${RESTY_OPENSSL_URL} -o openssl-${RESTY_OPENSSL_VERSION}.tar.gz && \
-    tar xzf openssl-${RESTY_OPENSSL_VERSION}.tar.gz && \
-    cd openssl-${RESTY_OPENSSL_VERSION} && \
-    ./config  no-threads shared zlib -g  enable-ssl3 enable-ssl3-method  --prefix=/usr/local/openresty/openssl  --libdir=lib  -Wl,-rpath,/usr/local/openresty/openssl/lib && \
-    make -j  && \
-    make  install_sw && \
-    # install pcre
-    cd /home/www/soft && \
-    curl -fSL ${RESTY_PCRE_URL} -o pcre-${RESTY_PCRE_VERSION}.tar.gz && \
-    tar xzf pcre-${RESTY_PCRE_VERSION}.tar.gz && \
-    cd pcre-${RESTY_PCRE_VERSION} && \
-    ./configure --prefix=/usr/local/openresty/pcre --disable-cpp --enable-jit --enable-utf --enable-unicode-properties  && \
-    make -j  && \
-    make install && \
-    #install openresty
-    cd /home/www/soft && \
-    curl -fSL ${RESTY_URL} -o openresty-${RESTY_VERSION}.tar.gz && \
-    tar xzf openresty-${RESTY_VERSION}.tar.gz && \
-    cd openresty-${RESTY_VERSION} && \
-    mkdir module && \
-    cd module && \
-    # git clone --depth=1 https://github.com/xiaomatech/nginx-http-trim.git && \
-    git clone --depth=1 https://github.com/alibaba/nginx-http-concat.git && \
-    git clone --depth=1 https://github.com/alibaba/nginx-http-user-agent.git && \
-    cd /home/www/soft/openresty-${RESTY_VERSION} && \
-    ./configure  --with-pcre  --with-cc-opt="-DNGX_LUA_ABORT_AT_PANIC -I/usr/local/openresty/pcre/include -I/usr/local/openresty/openssl/include"  --with-ld-opt="-L/usr/local/openresty/pcre/lib -L/usr/local/openresty/openssl/lib -Wl,-rpath,/usr/local/openresty/pcre/lib:/usr/local/openresty/openssl/lib"   --user=www --group=www --with-compat --with-file-aio --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_flv_module --with-http_geoip_module=dynamic --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module=dynamic --with-http_mp4_module --with-http_random_index_module --with-http_realip_module --with-http_secure_link_module --with-http_slice_module --with-http_ssl_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-http_xslt_module=dynamic --with-ipv6 --with-mail --with-mail_ssl_module --with-md5-asm --with-pcre-jit --with-sha1-asm --with-stream --with-stream_ssl_module --with-threads  --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT" --add-module=./module/nginx-http-concat --add-module=./module/nginx-http-user-agent  && \
-    make -j  && \
-    make install && \
-    # install luarocks
-    cd /home/www/soft && \
-    curl -fSL ${RESTY_LUAROCKS_URL} -o luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz && \
-    tar xzf luarocks-${RESTY_LUAROCKS_VERSION}.tar.gz && \
-    cd luarocks-${RESTY_LUAROCKS_VERSION} && \
-    ./configure --prefix=/usr/local/openresty/luajit --with-lua=/usr/local/openresty/luajit --lua-suffix=jit-2.1.0-beta3 --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 && \
-    make build  && \
-    make install && \
-    # install protoc
-    cd /home/www/soft && \
-    curl -fSL  ${PROTOBUF_URL} -o protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
-    unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
-    mv bin/protoc /usr/local/bin && \
-    mv include/google /usr/local/include && \
     # install ta-lib
     cd /home/www/soft && \
     curl -fSL ${TALIB_URL} -o ta-lib-${TALIB_VERSION}-src.tar.gz && \
@@ -155,6 +98,54 @@ RUN groupadd -r www && \
     ldconfig && \
     cd /usr/local/lib && \
     ln -s libta-lib.so libta_lib.so && \
+    cd /home/www/soft && \
+    # install golang
+    curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
+    tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
+    #install jemalloc
+    cd /home/www/soft && \
+    curl -fSL ${JEMALLOC_URL} -o jemalloc-${JEMALLOC_VERSION}.tar.bz2 && \
+    tar xjf jemalloc-${JEMALLOC_VERSION}.tar.bz2 && \
+    cd jemalloc-${JEMALLOC_VERSION} && \
+    ./configure && \
+    make -j && \
+    make install && \
+    ln -s /usr/local/lib/libjemalloc.so.2 /usr/lib/libjemalloc.so.1 && \
+    [ -z "`grep /usr/local/lib /etc/ld.so.conf.d/*.conf`" ] && echo '/usr/local/lib' > /etc/ld.so.conf.d/local.conf && ldconfig && \
+    #install openresty
+    cd /home/www/soft && \
+    curl -fSL ${RESTY_URL} -o openresty-${RESTY_VERSION}.tar.gz && \
+    tar xzf openresty-${RESTY_VERSION}.tar.gz && \
+    cd openresty-${RESTY_VERSION} && \
+    mkdir module && \
+    cd module && \
+    git clone --depth=1 https://gitee.com/abulo_hoo/nginx-http-trim.git && \
+    git clone --depth=1 https://github.com/alibaba/nginx-http-concat.git && \
+    git clone --depth=1 https://github.com/alibaba/nginx-http-user-agent.git && \
+    # download openssl
+    curl -fSL ${OPENSSL_URL} -o openssl-${OPENSSL_VERSION}.tar.gz && \
+    tar xzf openssl-${OPENSSL_VERSION}.tar.gz && \
+    # download pcre
+    curl -fSL ${PCRE_URL} -o pcre-${PCRE_VERSION}.tar.gz && \
+    tar xzf pcre-${PCRE_VERSION}.tar.gz && \
+    cd /home/www/soft/openresty-${RESTY_VERSION} && \
+    ./configure --prefix=/usr/local/openresty --user=www --group=www --with-compat --with-file-aio --with-http_addition_module --with-http_auth_request_module --with-http_dav_module --with-http_geoip_module=dynamic  --with-http_gunzip_module  --with-http_image_filter_module=dynamic --with-http_random_index_module --with-http_stub_status_module --with-http_sub_module --with-http_v2_module --with-http_v3_module --with-http_ssl_module --with-http_gzip_static_module --with-http_realip_module --with-http_flv_module --with-http_mp4_module --with-http_secure_link_module --with-http_slice_module --with-openssl=./module/openssl-${OPENSSL_VERSION} --with-pcre=./module/pcre-${PCRE_VERSION} --with-pcre-jit  --with-sha1-asm --with-stream --with-stream_ssl_module --with-threads  --with-http_xslt_module=dynamic --with-ipv6 --with-mail --with-mail_ssl_module --with-md5-asm  --with-luajit-xcflags="-DLUAJIT_NUMMODE=2 -DLUAJIT_ENABLE_LUA52COMPAT" --add-module=./module/nginx-http-concat --add-module=./module/nginx-http-user-agent --add-module=./module/nginx-http-trim --with-ld-opt='-ljemalloc -Wl,-u,pcre_version' && \
+    make -j  && \
+    make install && \
+    # install luarocks
+    cd /home/www/soft && \
+    curl -fSL ${LUAROCKS_URL} -o luarocks-${LUAROCKS_VERSION}.tar.gz && \
+    tar xzf luarocks-${LUAROCKS_VERSION}.tar.gz && \
+    cd luarocks-${LUAROCKS_VERSION} && \
+    ./configure --prefix=/usr/local/openresty/luajit --with-lua=/usr/local/openresty/luajit --lua-suffix=jit-2.1.0-beta3 --with-lua-include=/usr/local/openresty/luajit/include/luajit-2.1 && \
+    make build  && \
+    make install && \
+    # install protoc
+    cd /home/www/soft && \
+    curl -fSL  ${PROTOBUF_URL} -o protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
+    unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
+    mv bin/protoc /usr/local/bin && \
+    mv include/google /usr/local/include && \
     cd /home/www && \
     rm -rf /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
