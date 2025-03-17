@@ -54,7 +54,7 @@ ARG GOLANG_VERSION="1.24.1"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
-ARG PROTOBUF_VERSION="30.0"
+ARG PROTOBUF_VERSION="30.1"
 ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
 # ta-lib 版本
@@ -146,6 +146,13 @@ RUN groupadd -r www && \
     unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
+    cd /home/www/soft && \
+    git clone --depth=1 https://github.com/abulo/ratel.git && \
+    chmod -R +x /home/www/ratel && \
+    cd ratel && \
+    ./mod.sh && \
+    cd toolkit && \
+    ./mod.sh && \
     cd /home/www && \
     rm -rf /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
