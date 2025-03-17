@@ -147,7 +147,6 @@ RUN groupadd -r www && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
     cd /home/www && \
-    rm -rf /home/www/soft && \
     mkdir -pv ${BUILD}/bin && \
     mkdir -pv ${BUILD}/cache && \
     mkdir -pv ${BUILD}/env && \
@@ -176,6 +175,9 @@ RUN groupadd -r www && \
     luarocks install lua-resty-http && \
     luarocks install lua-resty-jwt && \
     luarocks install lua-resty-mlcache && \
+    cd /home/www/soft && \
+    git clone --depth=1 https://github.com/abulo/ratel.git && cd ratel && ./mod.sh && cd toolkit && ./mod.sh && \
+    rm -rf /home/www/soft && \
     rm -rf ${BUILD}/cache/* && \
     rm -rf ${BUILD}/vendor/* && \
     rm -rf ${BUILD}/tmp/* && \
