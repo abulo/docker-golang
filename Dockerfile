@@ -148,7 +148,7 @@ RUN groupadd -r www && \
     mv include/google /usr/local/include && \
     cd /home/www/soft && \
     git clone --depth=1 https://github.com/abulo/ratel.git && \
-    chmod -R +x /home/www/ratel && \
+    chmod -R +x /home/www/soft/ratel && \
     cd ratel && \
     ./mod.sh && \
     cd toolkit && \
