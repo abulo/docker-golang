@@ -3,18 +3,20 @@ FROM ubuntu:22.04
 LABEL maintainer="Abulo Hoo"
 LABEL maintainer-email="abulo.hoo@gmail.com"
 
-ENV GOENV=/home/www/golang/env
-ENV GOTMPDIR=/home/www/golang/tmp
-ENV GOBIN=/home/www/golang/bin
-ENV GOCACHE=/home/www/golang/cache
-ENV GOPATH=/home/www/golang
+ARG BUILD=/home/www/golang
+
+ENV GOENV=${BUILD}/env
+ENV GOTMPDIR=${BUILD}/tmp
+ENV GOBIN=${BUILD}/bin
+ENV GOCACHE=${BUILD}/cache
+ENV GOPATH=${BUILD}
 ENV GO111MODULE="on"
-ENV PATH=/home/www/golang/bin:$PATH
-ENV PATH=/usr/local/go/bin:$PATH
-ENV LUA_PATH="/usr/local/openresty/site/lualib/?.ljbc;/usr/local/openresty/site/lualib/?/init.ljbc;/usr/local/openresty/lualib/?.ljbc;/usr/local/openresty/lualib/?/init.ljbc;/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua;/usr/local/openresty/luajit/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/openresty/luajit/share/lua/5.1/?.lua;/usr/local/openresty/luajit/share/lua/5.1/?/init.lua"
-ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;/usr/local/openresty/luajit/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/local/openresty/luajit/lib/lua/5.1/?.so"
-ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
-ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+ENV PATH ${BUILD}/bin:$PATH
+ENV PATH /usr/local/go/bin:$PATH
+ENV LUA_PATH "/usr/local/openresty/site/lualib/?.ljbc;/usr/local/openresty/site/lualib/?/init.ljbc;/usr/local/openresty/lualib/?.ljbc;/usr/local/openresty/lualib/?/init.ljbc;/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua;/usr/local/openresty/luajit/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/openresty/luajit/share/lua/5.1/?.lua;/usr/local/openresty/luajit/share/lua/5.1/?/init.lua"
+ENV LUA_CPATH "/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;/usr/local/openresty/luajit/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/local/openresty/luajit/lib/lua/5.1/?.so"
+ENV PATH $PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 
 
 # ldap config
@@ -144,21 +146,15 @@ RUN groupadd -r www && \
     unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
-    # cd /home/www/soft && \
-    # git clone --depth=1 https://github.com/abulo/ratel.git && \
-    # chmod -R +x /home/www/soft/ratel && \
-    # cd ratel/toolkit && \
-    # go build -o toolkit main.go && \
-    # mv toolkit /home/www/golang/bin/ && \
     cd /home/www && \
     rm -rf /home/www/soft && \
-    mkdir -pv /home/www/golang/bin && \
-    mkdir -pv /home/www/golang/cache && \
-    mkdir -pv /home/www/golang/env && \
-    mkdir -pv /home/www/golang/pkg && \
-    mkdir -pv /home/www/golang/src && \
-    mkdir -pv /home/www/golang/tmp && \
-    mkdir -pv /home/www/golang/vendor && \
+    mkdir -pv ${BUILD}/bin && \
+    mkdir -pv ${BUILD}/cache && \
+    mkdir -pv ${BUILD}/env && \
+    mkdir -pv ${BUILD}/pkg && \
+    mkdir -pv ${BUILD}/src && \
+    mkdir -pv ${BUILD}/tmp && \
+    mkdir -pv ${BUILD}/vendor && \
     # go install github.com/abulo/ratel/v3/toolkit@latest && \
     go install github.com/jteeuwen/go-bindata/...@latest && \
     go install github.com/elazarl/go-bindata-assetfs/...@latest && \
@@ -180,11 +176,11 @@ RUN groupadd -r www && \
     luarocks install lua-resty-http && \
     luarocks install lua-resty-jwt && \
     luarocks install lua-resty-mlcache && \
-    rm -rf /home/www/golang/cache/* && \
-    rm -rf /home/www/golang/vendor/* && \
-    rm -rf /home/www/golang/tmp/* && \
-    rm -rf /home/www/golang/cache/* && \
-    rm -rf /home/www/golang/pkg/* && \
+    rm -rf ${BUILD}/cache/* && \
+    rm -rf ${BUILD}/vendor/* && \
+    rm -rf ${BUILD}/tmp/* && \
+    rm -rf ${BUILD}/cache/* && \
+    rm -rf ${BUILD}/pkg/* && \
     apt-get clean && \
     apt-get remove -f && \
     apt-get autoremove -y && \
