@@ -3,15 +3,13 @@ FROM ubuntu:22.04
 LABEL maintainer="Abulo Hoo"
 LABEL maintainer-email="abulo.hoo@gmail.com"
 
-ARG BUILD=/home/www/golang
-
-ENV GOENV=${BUILD}/env
-ENV GOTMPDIR=${BUILD}/tmp
-ENV GOBIN=${BUILD}/bin
-ENV GOCACHE=${BUILD}/cache
-ENV GOPATH=${BUILD}
+ENV GOENV=/home/www/golang/env
+ENV GOTMPDIR=/home/www/golang/tmp
+ENV GOBIN=/home/www/golang/bin
+ENV GOCACHE=/home/www/golang/cache
+ENV GOPATH=/home/www/golang
 ENV GO111MODULE="on"
-ENV PATH=${BUILD}/bin:$PATH
+ENV PATH=/home/www/golang/bin:$PATH
 ENV PATH=/usr/local/go/bin:$PATH
 ENV LUA_PATH="/usr/local/openresty/site/lualib/?.ljbc;/usr/local/openresty/site/lualib/?/init.ljbc;/usr/local/openresty/lualib/?.ljbc;/usr/local/openresty/lualib/?/init.ljbc;/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua;/usr/local/openresty/luajit/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/openresty/luajit/share/lua/5.1/?.lua;/usr/local/openresty/luajit/share/lua/5.1/?/init.lua"
 ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;/usr/local/openresty/luajit/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so;/usr/local/openresty/luajit/lib/lua/5.1/?.so"
@@ -151,7 +149,7 @@ RUN groupadd -r www && \
     chmod -R +x /home/www/soft/ratel && \
     cd ratel/toolkit && \
     go build -o toolkit main.go && \
-    mv toolkit ${BUILD}/bin/ && \
+    mv toolkit /home/www/golang/bin/ && \
     cd /home/www && \
     rm -rf /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
