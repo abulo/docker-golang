@@ -144,12 +144,12 @@ RUN groupadd -r www && \
     unzip protoc-${PROTOBUF_VERSION}-linux-x86_64.zip && \
     mv bin/protoc /usr/local/bin && \
     mv include/google /usr/local/include && \
-    cd /home/www/soft && \
-    git clone --depth=1 https://github.com/abulo/ratel.git && \
-    chmod -R +x /home/www/soft/ratel && \
-    cd ratel/toolkit && \
-    go build -o toolkit main.go && \
-    mv toolkit /home/www/golang/bin/ && \
+    # cd /home/www/soft && \
+    # git clone --depth=1 https://github.com/abulo/ratel.git && \
+    # chmod -R +x /home/www/soft/ratel && \
+    # cd ratel/toolkit && \
+    # go build -o toolkit main.go && \
+    # mv toolkit /home/www/golang/bin/ && \
     cd /home/www && \
     rm -rf /home/www/soft && \
     mkdir -pv /home/www/golang/bin && \
