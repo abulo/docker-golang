@@ -101,7 +101,8 @@ RUN groupadd -r www && \
     unzip chrome-linux.zip -d /usr/local/ && \
     # install chromedriver
     curl -fSL ${CHROMEDRIVER_URL} -o chromedriver_linux64.zip && \
-    unzip chromedriver_linux64.zip -d /usr/local/bin/ && \
+    unzip chromedriver_linux64.zip && \
+    mv chromedriver_linux64/chromedriver  /usr/local/bin/ && \
     # install ta-lib
     cd /home/www/soft && \
     curl -fSL ${TALIB_URL} -o ta-lib-${TALIB_VERSION}-src.tar.gz && \
