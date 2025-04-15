@@ -98,7 +98,7 @@ RUN groupadd -r www && \
     # install chrome
     cd /home/www/soft && \
     curl -fSL ${CHROME_LINUX_URL} -o chrome-linux.zip && \
-    && unzip chrome-linux.zip -d /usr/local/ && \
+    unzip chrome-linux.zip -d /usr/local/ && \
     # install chromedriver
     curl -fSL ${CHROMEDRIVER_URL} -o chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip -d /usr/local/bin/ && \
