@@ -193,6 +193,12 @@ RUN groupadd -r www && \
     luarocks install lua-resty-mlcache && \
     cd /home/www/soft && \
     git clone --depth=1 https://github.com/abulo/ratel.git && cd ratel && ./mod.sh && cd toolkit && ./mod.sh && \
+    cd /home/www/soft && \
+    git clone --depth=1 https://github.com/hybridgroup/gocv.git && \
+    cd gocv && \
+    sed -i 's/sudo //g' Makefile && \
+    sed -i 's|/tmp/|/home/www/soft/tmp/|g' Makefile && \
+    make install && \
     rm -rf /home/www/soft && \
     rm -rf ${BUILD}/cache/* && \
     rm -rf ${BUILD}/vendor/* && \
