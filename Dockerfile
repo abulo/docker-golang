@@ -198,6 +198,7 @@ RUN groupadd -r www && \
     cd gocv && \
     sed -i 's/sudo //g' Makefile && \
     sed -i 's|/tmp/|/home/www/soft/tmp/|g' Makefile && \
+    mkdir -pv /home/www/soft/tmp && \
     make install && \
     rm -rf /home/www/soft && \
     rm -rf ${BUILD}/cache/* && \
