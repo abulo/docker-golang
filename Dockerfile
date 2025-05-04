@@ -196,7 +196,7 @@ RUN groupadd -r www && \
     cd /home/www/soft && \
     git clone --depth=1 https://github.com/hybridgroup/gocv.git && \
     cd gocv && \
-    sed -i 's/sudo //g' Makefile && \
+    sed -i 's/sudo //g'  Makefile && \
     make install && \
     rm -rf /home/www/soft && \
     rm -rf ${BUILD}/cache/* && \
