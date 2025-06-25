@@ -227,9 +227,9 @@ RUN groupadd -r www && \
     # go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest  && \
     # go install github.com/syncore/protoc-go-inject-tag@latest  && \
     # go install golang.org/x/vuln/cmd/govulncheck@latest && \
-    luarocks install lua-resty-http && \
-    luarocks install lua-resty-jwt && \
-    luarocks install lua-resty-mlcache && \
+    # luarocks install lua-resty-http && \
+    # luarocks install lua-resty-jwt && \
+    # luarocks install lua-resty-mlcache && \
     cd /home/www/soft && \
     git clone --depth=1 https://github.com/abulo/ratel.git && cd ratel && ./mod.sh && cd toolkit && ./mod.sh && \
     rm -rf /home/www/soft && \
