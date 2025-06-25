@@ -18,6 +18,9 @@ ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
 ENV PKG_CONFIG_PATH=
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+ENV PATH=/usr/local/chrome-linux:$PATH
+ENV CHROMEDP_NO_SANDBOX=true
+ENV CHROMEDP_HEADLESS=true
 
 
 # ldap config
@@ -55,12 +58,22 @@ ARG GOLANG_VERSION="1.24.3"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
-ARG PROTOBUF_VERSION="31.0"
+ARG PROTOBUF_VERSION="31.1"
 ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
 # ta-lib 版本
 ARG TALIB_VERSION="0.6.4"
 ARG TALIB_URL=https://github.com/TA-Lib/ta-lib/releases/download/v${TALIB_VERSION}/ta-lib-${TALIB_VERSION}-src.tar.gz
+
+# chrome
+ARG CHROME_VERSION="1447034"
+ARG CHROME_LINUX_URL=https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_VERSION}/chrome-linux.zip
+ARG CHROMEDRIVER_URL=https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_VERSION}/chromedriver_linux64.zip
+
+# opencv
+ARG OPENCV_VERSION="4.11.0"
+ARG OPENCV_FILE=https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
+ARG OPENCV_CONTRIB_FILE=https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip
 
 # 设置源
 # RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
@@ -86,8 +99,49 @@ RUN groupadd -r www && \
     rm /etc/localtime && \
     ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get install --no-install-recommends -y -q gnupg libxml2 libxml2-dev build-essential openssl libssl-dev make curl libjpeg-dev libpng-dev libmcrypt-dev libreadline8 libmhash-dev libfreetype6-dev libkrb5-dev libc-client2007e libc-client2007e-dev libbz2-dev libxslt1-dev libxslt1.1 libpq-dev libpng++-dev libpng-dev git autoconf automake m4 libmagickcore-dev libmagickwand-dev libcurl4-openssl-dev libltdl-dev libmhash2 libiconv-hook-dev libiconv-hook1 libpcre3-dev libgmp-dev gcc g++ ssh cmake re2c wget cron bzip2 flex vim bison mawk cpp binutils libncurses5 unzip tar libncurses5-dev libtool libpcre3 libpcrecpp0v5 libltdl3-dev slapd ldap-utils db5.3-util libldap2-dev libsasl2-dev net-tools libicu-dev libtidy-dev systemtap-sdt-dev libgmp3-dev gettext libexpat1-dev libz-dev libedit-dev libdmalloc-dev libevent-dev libyaml-dev autotools-dev pkg-config zlib1g-dev libcunit1-dev libev-dev libjansson-dev libc-ares-dev python3-dev python-setuptools libreadline-dev perl python3-pip zsh tcpdump strace gdb openbsd-inetd telnetd htop valgrind jpegoptim optipng pngquant iputils-ping gifsicle imagemagick libmagick++-dev libopenslide-dev libtiff5-dev libgdk-pixbuf2.0-dev libsqlite3-dev libcairo2-dev libglib2.0-dev sqlite3 gobject-introspection gtk-doc-tools libwebp-dev libexif-dev libgsf-1-dev liblcms2-dev swig libtiff5-dev libgd-dev libgeoip-dev supervisor nload tree software-properties-common apt-utils ca-certificates gettext-base libperl-dev libdlib-dev libblas-dev libatlas-base-dev liblapack-dev libjpeg-turbo8-dev libvips-dev libvips libvips-tools && \
+    apt-get install --no-install-recommends -y -q gnupg libxml2 libxml2-dev build-essential openssl libssl-dev make curl libjpeg-dev libpng-dev libmcrypt-dev libreadline8 libmhash-dev libfreetype6-dev libkrb5-dev libc-client2007e libc-client2007e-dev libbz2-dev libxslt1-dev libxslt1.1 libpq-dev libpng++-dev libpng-dev git autoconf automake m4 libmagickcore-dev libmagickwand-dev libcurl4-openssl-dev libltdl-dev libmhash2 libiconv-hook-dev libiconv-hook1 libpcre3-dev libgmp-dev gcc g++ ssh cmake re2c wget cron bzip2 flex vim bison mawk cpp binutils libncurses5 unzip tar libncurses5-dev libtool libpcre3 libpcrecpp0v5 libltdl3-dev slapd ldap-utils db5.3-util libldap2-dev libsasl2-dev net-tools libicu-dev libtidy-dev systemtap-sdt-dev libgmp3-dev gettext libexpat1-dev libz-dev libedit-dev libdmalloc-dev libevent-dev libyaml-dev autotools-dev pkg-config zlib1g-dev libcunit1-dev libev-dev libjansson-dev libc-ares-dev python3-dev python-setuptools libreadline-dev perl python3-pip zsh tcpdump strace gdb openbsd-inetd telnetd htop valgrind jpegoptim optipng pngquant iputils-ping gifsicle imagemagick libmagick++-dev libopenslide-dev libtiff5-dev libgdk-pixbuf2.0-dev libsqlite3-dev libcairo2-dev libglib2.0-dev sqlite3 gobject-introspection gtk-doc-tools libwebp-dev libexif-dev libgsf-1-dev liblcms2-dev swig libtiff5-dev libgd-dev libgeoip-dev supervisor nload tree software-properties-common apt-utils ca-certificates gettext-base libperl-dev libdlib-dev libblas-dev libatlas-base-dev liblapack-dev libjpeg-turbo8-dev libvips-dev libvips libvips-tools fonts-liberation libappindicator3-1 libasound2 libatk1.0-0 libcairo2 libcups2 libdbus-1-3 libdrm2 libgbm1 libglib2.0-0 libgtk-3-0 libnspr4 libnss3 libpango-1.0-0 libx11-6 libxcb1 libxcomposite1 libxdamage1 libxext6 libxfixes3 libxrandr2 libxshmfence1 libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libtbb2 libtbb-dev libharfbuzz-dev libtiff-dev libdc1394-dev nasm git build-essential cmake pkg-config wget unzip libgtk2.0-dev  curl ca-certificates libcurl4-openssl-dev libssl-dev  libavcodec-dev libavformat-dev libswscale-dev libtbb2 libtbb-dev  libharfbuzz-dev libfreetype6-dev  libjpeg-turbo8-dev libpng-dev libtiff-dev libdc1394-dev nasm libvips-dev libvips libvips-tools && \
     mkdir -pv /home/www/soft && \
+    #install opencv
+    cd /home/www/soft && \
+    curl -Lo opencv.zip ${OPENCV_FILE} && \
+    unzip -q opencv.zip && \
+    curl -Lo opencv_contrib.zip ${OPENCV_CONTRIB_FILE} && \
+    unzip -q opencv_contrib.zip && \
+    rm opencv.zip opencv_contrib.zip && \
+    cd opencv-${OPENCV_VERSION} && \
+    mkdir build && cd build && \
+    cmake -D CMAKE_BUILD_TYPE=RELEASE \
+    -D WITH_IPP=OFF \
+    -D WITH_OPENGL=OFF \
+    -D WITH_QT=OFF \
+    -D WITH_FREETYPE=ON \
+    -D CMAKE_INSTALL_PREFIX=/usr/local \
+    -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-${OPENCV_VERSION}/modules \
+    -D OPENCV_ENABLE_NONFREE=ON \
+    -D WITH_JASPER=OFF \
+    -D WITH_TBB=ON \
+    -D BUILD_JPEG=ON \
+    -D WITH_SIMD=ON \
+    -D ENABLE_LIBJPEG_TURBO_SIMD=ON \
+    -D BUILD_DOCS=OFF \
+    -D BUILD_EXAMPLES=OFF \
+    -D BUILD_TESTS=OFF \
+    -D BUILD_PERF_TESTS=ON \
+    -D BUILD_opencv_java=NO \
+    -D BUILD_opencv_python=NO \
+    -D BUILD_opencv_python2=NO \
+    -D BUILD_opencv_python3=NO \
+    -D OPENCV_GENERATE_PKGCONFIG=ON .. && \
+    make -j $(nproc --all) && \
+    make preinstall && make install && ldconfig && \
+    # install chrome
+    cd /home/www/soft && \
+    curl -fSL ${CHROME_LINUX_URL} -o chrome-linux.zip && \
+    unzip chrome-linux.zip -d /usr/local/ && \
+    # install chromedriver
+    curl -fSL ${CHROMEDRIVER_URL} -o chromedriver_linux64.zip && \
+    unzip chromedriver_linux64.zip && \
+    mv chromedriver_linux64/chromedriver  /usr/local/bin/ && \
     # install ta-lib
     cd /home/www/soft && \
     curl -fSL ${TALIB_URL} -o ta-lib-${TALIB_VERSION}-src.tar.gz && \
