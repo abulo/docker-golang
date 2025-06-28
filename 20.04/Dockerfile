@@ -136,12 +136,10 @@ RUN groupadd -r www && \
     make preinstall && make install && ldconfig && \
     # install chrome
     cd /home/www/soft && \
-    curl -fSL ${CHROME_LINUX_URL} -o chrome-linux.zip && \
-    unzip chrome-linux.zip -d /usr/local/ && \
-    # install chromedriver
-    curl -fSL ${CHROMEDRIVER_URL} -o chromedriver_linux64.zip && \
-    unzip chromedriver_linux64.zip && \
-    mv chromedriver_linux64/chromedriver  /usr/local/bin/ && \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable && \
     # install ta-lib
     cd /home/www/soft && \
     curl -fSL ${TALIB_URL} -o ta-lib-${TALIB_VERSION}-src.tar.gz && \

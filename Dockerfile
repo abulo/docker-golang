@@ -65,10 +65,6 @@ ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v
 ARG TALIB_VERSION="0.6.4"
 ARG TALIB_URL=https://github.com/TA-Lib/ta-lib/releases/download/v${TALIB_VERSION}/ta-lib-${TALIB_VERSION}-src.tar.gz
 
-# chrome
-ARG CHROME_VERSION="1447034"
-ARG CHROME_LINUX_URL=https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_VERSION}/chrome-linux.zip
-ARG CHROMEDRIVER_URL=https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_VERSION}/chromedriver_linux64.zip
 
 # opencv
 ARG OPENCV_VERSION="4.11.0"
@@ -136,12 +132,10 @@ RUN groupadd -r www && \
     make preinstall && make install && ldconfig && \
     # install chrome
     cd /home/www/soft && \
-    curl -fSL ${CHROME_LINUX_URL} -o chrome-linux.zip && \
-    unzip chrome-linux.zip -d /usr/local/ && \
-    # install chromedriver
-    curl -fSL ${CHROMEDRIVER_URL} -o chromedriver_linux64.zip && \
-    unzip chromedriver_linux64.zip && \
-    mv chromedriver_linux64/chromedriver  /usr/local/bin/ && \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable && \
     # install ta-lib
     cd /home/www/soft && \
     curl -fSL ${TALIB_URL} -o ta-lib-${TALIB_VERSION}-src.tar.gz && \
