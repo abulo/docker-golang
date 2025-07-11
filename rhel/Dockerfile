@@ -45,7 +45,7 @@ RUN groupadd -r www && \
     echo "Asia/Shanghai" > /etc/timezone && \
     curl -o /etc/yum.repos.d/redhat.repo http://mirrors.aliyun.com/repo/Centos-8.repo && \
     dnf clean all && dnf makecache && \
-    dnf install -y unzip cmake wget gcc gcc-c++ make  glib2-devel      pkgconfig      expat-devel      libxslt-devel && \
+    dnf install -y unzip cmake wget gcc gcc-c++ make  glib2-devel pkgconfig expat-devel libxslt-devel git && \
     mkdir -pv /home/www/soft && \
     echo '[google-chrome]' > /etc/yum.repos.d/google-chrome.repo   && \
     echo 'name=google-chrome - 64-bit' >> /etc/yum.repos.d/google-chrome.repo  && \
@@ -75,6 +75,13 @@ RUN groupadd -r www && \
     cd /home/www/soft && \
     curl -L -o go${GOLANG_VERSION}.linux-amd64.tar.gz ${GOLANG_URL} && \
     tar -C /usr/local -xzf go${GOLANG_VERSION}.linux-amd64.tar.gz && \
+    cd /home/www/soft && \
+    git clone https://github.com/abulo/linux.git && \
+    cd linux && \
+    sed -i '39s/^/# /' ./include/openresty.sh && \
+    sed -i '88s/^/# /' ./include/openresty.sh && \
+    sed -i '1176,1220{s/^/# /}' ./install.sh && \
+    ./install.sh --nginx_option 3 && \
     cd /home/www && \
     rm -rf /home/www/soft && \
     dnf clean all
