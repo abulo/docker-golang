@@ -54,21 +54,16 @@ ARG VIPS_VERSION="8.13.0"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
-ARG GOLANG_VERSION="1.25.4"
+ARG GOLANG_VERSION="1.25.5"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
-ARG PROTOBUF_VERSION="33.1"
+ARG PROTOBUF_VERSION="33.2"
 ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
 # ta-lib 版本
 ARG TALIB_VERSION="0.6.4"
 ARG TALIB_URL=https://github.com/TA-Lib/ta-lib/releases/download/v${TALIB_VERSION}/ta-lib-${TALIB_VERSION}-src.tar.gz
-
-# chrome
-ARG CHROME_VERSION="1447034"
-ARG CHROME_LINUX_URL=https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_VERSION}/chrome-linux.zip
-ARG CHROMEDRIVER_URL=https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/${CHROME_VERSION}/chromedriver_linux64.zip
 
 # opencv
 ARG OPENCV_VERSION="4.11.0"
