@@ -54,11 +54,11 @@ ARG VIPS_VERSION="8.13.0"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
-ARG GOLANG_VERSION="1.25.5"
+ARG GOLANG_VERSION="1.25.6"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
-ARG PROTOBUF_VERSION="33.2"
+ARG PROTOBUF_VERSION="33.4"
 ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
 # ta-lib 版本
