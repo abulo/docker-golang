@@ -17,8 +17,8 @@ jobs:
             # tag: latest
           - dockerfile: ./22.04/Dockerfile
             tag: latest
-          - dockerfile: ./20.04/Dockerfile
-            tag: "20.04"
+          # - dockerfile: ./20.04/Dockerfile
+            # tag: "20.04"
           # - dockerfile: ./rhel/Dockerfile
             # tag: rhel
 
