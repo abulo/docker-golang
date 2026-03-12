@@ -68,9 +68,8 @@ ARG TALIB_URL=https://github.com/TA-Lib/ta-lib/releases/download/v${TALIB_VERSIO
 
 
 # 设置源
-# RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
-
-RUN groupadd -r www && \
+RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
+    groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
 	apt-get -y update && \

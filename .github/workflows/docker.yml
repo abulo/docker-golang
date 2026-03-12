@@ -40,3 +40,5 @@ jobs:
           file: ${{ matrix.dockerfile }}
           push: true
           tags: abulo/docker-golang:${{ matrix.tag }}
+        env:
+          BUILDKIT_PROGRESS: plain  # 显示详细构建过程
