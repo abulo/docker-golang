@@ -66,10 +66,15 @@ ARG TALIB_VERSION="0.6.4"
 ARG TALIB_URL=https://github.com/TA-Lib/ta-lib/releases/download/v${TALIB_VERSION}/ta-lib-${TALIB_VERSION}-src.tar.gz
 
 
+# opencv
+# ARG OPENCV_VERSION="4.11.0"
+# ARG OPENCV_FILE=https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip
+# ARG OPENCV_CONTRIB_FILE=https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip
 
 # 设置源
-RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
-    groupadd -r www && \
+# RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list
+
+RUN groupadd -r www && \
 	useradd -r -g www www && \
 	mkdir -pv /home/www && \
 	apt-get -y update && \
