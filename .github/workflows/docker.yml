@@ -13,14 +13,18 @@ jobs:
     strategy:
       matrix:
         include:
-          - dockerfile: ./Dockerfile
+          # - dockerfile: ./Dockerfile
+            # tag: latest
+          - dockerfile: ./26.04/Dockerfile
             tag: latest
+          - dockerfile: ./24.04/Dockerfile
+            tag: "24.04"
           - dockerfile: ./22.04/Dockerfile
             tag: "22.04"
-          - dockerfile: ./20.04/Dockerfile
-            tag: "20.04"
-          - dockerfile: ./rhel/Dockerfile
-            tag: rhel
+          # - dockerfile: ./20.04/Dockerfile
+            # tag: "20.04"
+          # - dockerfile: ./rhel/Dockerfile
+            # tag: rhel
 
     steps:
       - name: Checkout
