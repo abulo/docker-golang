@@ -159,7 +159,6 @@ RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list &&
     mkdir -pv ${BUILD}/src && \
     mkdir -pv ${BUILD}/tmp && \
     mkdir -pv ${BUILD}/vendor && \
-    # go install github.com/abulo/ratel/v3/toolkit@latest && \
     go install github.com/jteeuwen/go-bindata/...@latest && \
     go install github.com/elazarl/go-bindata-assetfs/...@latest && \
     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
@@ -177,9 +176,9 @@ RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list &&
     go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest  && \
     go install github.com/syncore/protoc-go-inject-tag@latest  && \
     go install golang.org/x/vuln/cmd/govulncheck@latest && \
-    # luarocks install lua-resty-http && \
-    # luarocks install lua-resty-jwt && \
-    # luarocks install lua-resty-mlcache && \
+    luarocks install lua-resty-http && \
+    luarocks install lua-resty-jwt && \
+    luarocks install lua-resty-mlcache && \
     cd /home/www/soft && \
     git clone --depth=1 https://github.com/abulo/ratel.git && cd ratel && ./mod.sh && cd toolkit && ./mod.sh && \
     rm -rf /home/www/soft && \
