@@ -38,7 +38,7 @@ ARG RESTY_VERSION="1.29.2.1"
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
-ARG LUAROCKS_VERSION="3.9.2"
+ARG LUAROCKS_VERSION="3.13.0"
 ARG LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${LUAROCKS_VERSION}.tar.gz
 
 # openssl 版本
@@ -64,8 +64,6 @@ ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v
 # ta-lib 版本
 ARG TALIB_VERSION="0.6.4"
 ARG TALIB_URL=https://github.com/TA-Lib/ta-lib/releases/download/v${TALIB_VERSION}/ta-lib-${TALIB_VERSION}-src.tar.gz
-
-
 
 # 设置源
 RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list && \
@@ -176,9 +174,9 @@ RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list &&
     go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest  && \
     go install github.com/syncore/protoc-go-inject-tag@latest  && \
     go install golang.org/x/vuln/cmd/govulncheck@latest && \
-    # luarocks install lua-resty-http && \
-    # luarocks install lua-resty-jwt && \
-    # luarocks install lua-resty-mlcache && \
+    luarocks install lua-resty-http && \
+    luarocks install lua-resty-jwt && \
+    luarocks install lua-resty-mlcache && \
     cd /home/www/soft && \
     git clone --depth=1 https://github.com/abulo/ratel.git && cd ratel && ./mod.sh && cd toolkit && ./mod.sh && \
     rm -rf /home/www/soft && \
