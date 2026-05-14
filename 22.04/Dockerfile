@@ -122,7 +122,7 @@ RUN  sed -i 's/security.ubuntu.com/mirrors.aliyun.com/' /etc/apt/sources.list &&
     cd openresty-${RESTY_VERSION} && \
     mkdir module && \
     cd module && \
-    git clone --depth=1 https://gitee.com/abulo_hoo/nginx-http-trim.git && \
+    git clone --depth=1 https://github.com/abulo/nginx-http-trim.git && \
     git clone --depth=1 https://github.com/alibaba/nginx-http-concat.git && \
     git clone --depth=1 https://github.com/alibaba/nginx-http-user-agent.git && \
     # download openssl
