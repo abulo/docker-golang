@@ -10,11 +10,12 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
     strategy:
       matrix:
         include:
-          # - dockerfile: ./Dockerfile
-            # tag: latest
           - dockerfile: ./26.04/Dockerfile
             tag: latest
           - dockerfile: ./24.04/Dockerfile
@@ -23,8 +24,6 @@ jobs:
             tag: "22.04"
           - dockerfile: ./20.04/Dockerfile
             tag: "20.04"
-          # - dockerfile: ./rhel/Dockerfile
-            # tag: rhel
 
     steps:
       - name: Checkout
