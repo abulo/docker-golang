@@ -42,7 +42,7 @@ ARG LUAROCKS_VERSION="3.13.0"
 ARG LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${LUAROCKS_VERSION}.tar.gz
 
 # openssl 版本
-ARG OPENSSL_VERSION="4.0.0"
+ARG OPENSSL_VERSION="3.6.2"
 ARG OPENSSL_URL=https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 
 # pcre 版本
