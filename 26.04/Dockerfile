@@ -30,11 +30,11 @@ ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
 
 # jemalloc 版本
-ARG JEMALLOC_VERSION="5.3.0"
+ARG JEMALLOC_VERSION="5.3.1"
 ARG JEMALLOC_URL=https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2
 
 # openresty 版本
-ARG RESTY_VERSION="1.29.2.4"
+ARG RESTY_VERSION="1.29.2.5"
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
@@ -42,7 +42,7 @@ ARG LUAROCKS_VERSION="3.13.0"
 ARG LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${LUAROCKS_VERSION}.tar.gz
 
 # openssl 版本
-ARG OPENSSL_VERSION="3.5.5"
+ARG OPENSSL_VERSION="3.6.2"
 ARG OPENSSL_URL=https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 
 # pcre 版本
