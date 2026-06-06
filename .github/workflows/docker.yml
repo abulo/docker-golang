@@ -18,16 +18,10 @@ jobs:
         include:
           - dockerfile: ./26.04/Dockerfile
             tag: latest
-          - dockerfile: ./24.10/Dockerfile
-            tag: "24.10"
           - dockerfile: ./24.04/Dockerfile
             tag: "24.04"
-          - dockerfile: ./22.10/Dockerfile
-            tag: "22.10"
           - dockerfile: ./22.04/Dockerfile
             tag: "22.04"
-          - dockerfile: ./20.10/Dockerfile
-            tag: "20.10"
           - dockerfile: ./20.04/Dockerfile
             tag: "20.04"
 
