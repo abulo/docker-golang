@@ -28,8 +28,6 @@
 │   └── Dockerfile
 ├── 26.04/              # Ubuntu 26.04 环境
 │   └── Dockerfile
-├── rhel/               # Red Hat Enterprise Linux 环境
-│   └── Dockerfile
 ├── .github/
 │   └── workflows/      # GitHub Actions CI/CD 配置
 │       └── docker.yml
@@ -60,8 +58,6 @@ docker build -t go-app:24.04 ./24.04
 # Ubuntu 26.04
 docker build -t go-app:26.04 ./26.04
 
-# RHEL
-docker build -t go-app:rhel ./rhel
 ```
 
 ### 使用 BuildKit Secrets 传递敏感信息
@@ -110,7 +106,7 @@ docker run -it --rm -v $(pwd):/app -w /app go-app:24.04 go run main.go
 
 ### 核心语言环境
 
-- **Golang**: 1.26.3
+- **Golang**: 1.26.4
 - **OpenResty**: 1.29.2.5（基于 Nginx + LuaJIT）
 - **LuaRocks**: 3.13.0（Lua 包管理器）
 

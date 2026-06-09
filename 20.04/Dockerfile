@@ -18,9 +18,6 @@ ENV LUA_CPATH="/usr/local/openresty/site/lualib/?.so;/usr/local/openresty/lualib
 ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
 ENV PKG_CONFIG_PATH=
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
-ENV PATH=/usr/local/chrome-linux:$PATH
-ENV CHROMEDP_NO_SANDBOX=true
-ENV CHROMEDP_HEADLESS=true
 
 
 # ldap config
@@ -54,7 +51,7 @@ ARG VIPS_VERSION="8.13.0"
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
 
 # golang 版本
-ARG GOLANG_VERSION="1.26.3"
+ARG GOLANG_VERSION="1.26.4"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
