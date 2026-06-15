@@ -31,7 +31,7 @@ ARG JEMALLOC_VERSION="5.3.1"
 ARG JEMALLOC_URL=https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2
 
 # openresty 版本
-ARG RESTY_VERSION="1.29.2.5"
+ARG RESTY_VERSION="1.31.1.1 "
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
@@ -39,7 +39,7 @@ ARG LUAROCKS_VERSION="3.13.0"
 ARG LUAROCKS_URL=https://luarocks.github.io/luarocks/releases/luarocks-${LUAROCKS_VERSION}.tar.gz
 
 # openssl 版本
-ARG OPENSSL_VERSION="3.6.2"
+ARG OPENSSL_VERSION="3.6.3"
 ARG OPENSSL_URL=https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 
 # pcre 版本
@@ -55,7 +55,7 @@ ARG GOLANG_VERSION="1.26.4"
 ARG GOLANG_URL=https://golang.org/dl/go${GOLANG_VERSION}.linux-amd64.tar.gz
 
 # protobuf 版本
-ARG PROTOBUF_VERSION="35.0"
+ARG PROTOBUF_VERSION="35.1"
 ARG PROTOBUF_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 
 # ta-lib 版本

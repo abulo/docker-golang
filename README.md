@@ -107,7 +107,7 @@ docker run -it --rm -v $(pwd):/app -w /app go-app:24.04 go run main.go
 ### 核心语言环境
 
 - **Golang**: 1.26.4
-- **OpenResty**: 1.29.2.5（基于 Nginx + LuaJIT）
+- **OpenResty**: 1.31.1.1 （基于 Nginx + LuaJIT）
 - **LuaRocks**: 3.13.0（Lua 包管理器）
 
 ### 系统库与依赖
@@ -117,7 +117,7 @@ docker run -it --rm -v $(pwd):/app -w /app go-app:24.04 go run main.go
 - **PCRE2**: 10.47
 - **libvips**: 8.13.0（图像处理库）
 - **TA-Lib**: 0.6.4（技术分析库）
-- **Protocol Buffers**: 35.0
+- **Protocol Buffers**: 35.1
 
 ### Go 开发工具
 
