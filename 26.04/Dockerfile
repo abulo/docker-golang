@@ -34,7 +34,7 @@ ARG JEMALLOC_VERSION="5.3.1"
 ARG JEMALLOC_URL=https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2
 
 # openresty 版本
-ARG RESTY_VERSION="1.31.1.1 "
+ARG RESTY_VERSION="1.31.1.1"
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
