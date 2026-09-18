@@ -117,7 +117,7 @@ docker run -it --rm -v $(pwd):/app -w /app go-app:24.04 go run main.go
 - **PCRE2**: 10.47
 - **libvips**: 8.13.0（图像处理库）
 - **TA-Lib**: 0.6.4（技术分析库）
-- **Protocol Buffers**: 36.1
+- **Protocol Buffers**: 36.2
 
 ### Go 开发工具
 
