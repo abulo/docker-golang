@@ -34,7 +34,7 @@ ARG JEMALLOC_VERSION="5.3.1"
 ARG JEMALLOC_URL=https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2
 
 # openresty 版本
-ARG RESTY_VERSION="1.31.1.1"
+ARG RESTY_VERSION="1.31.8.1"
 ARG RESTY_URL=https://openresty.org/download/openresty-${RESTY_VERSION}.tar.gz
 
 # openresty 插件管理
@@ -46,7 +46,7 @@ ARG OPENSSL_VERSION="3.6.3"
 ARG OPENSSL_URL=https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
 
 # pcre 版本
-ARG PCRE_VERSION="10.47"
+ARG PCRE_VERSION="10.49"
 ARG PCRE_URL=https://github.com/PCRE2Project/pcre2/releases/download/pcre2-${PCRE_VERSION}/pcre2-${PCRE_VERSION}.tar.gz
 
 # vips 版本
