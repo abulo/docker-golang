@@ -112,7 +112,7 @@ docker run -it --rm -v $(pwd):/app -w /app go-app:24.04 go run main.go
 
 ### 系统库与依赖
 
-- **jemalloc**: 5.3.1（高性能内存分配器）
+- **jemalloc**: 5.4.0（高性能内存分配器）
 - **OpenSSL**: 4.0.0
 - **PCRE2**: 10.49
 - **libvips**: 8.13.0（图像处理库）
@@ -178,7 +178,7 @@ docker run -it --rm -v $(pwd):/app -w /app go-app:24.04 go run main.go
 ```bash
 docker build \
   --build-arg GOLANG_VERSION="1.21.0" \
-  --build-arg RESTY_VERSION="1.25.3.1" \
+  --build-arg RESTY_VERSION="1.25.4.0" \
   --build-arg LDAP_PASSWORD="custom_password" \
   -t go-app:custom ./24.04
 ```

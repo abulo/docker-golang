@@ -30,7 +30,7 @@ ARG LDAP_HOSTNAME=localhost
 ARG LDAP_PASSWORD=ldap
 
 # jemalloc 版本
-ARG JEMALLOC_VERSION="5.3.1"
+ARG JEMALLOC_VERSION="5.4.0"
 ARG JEMALLOC_URL=https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2
 
 # openresty 版本
